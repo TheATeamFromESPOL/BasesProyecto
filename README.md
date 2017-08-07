@@ -1,4 +1,4 @@
-# BasesProyecto
+# TireTec Database
 
 Proyecto de Sistemas de Bases de Datos
 
