@@ -1,6 +1,10 @@
-create database if not exists TireTec;
+drop database if exists TireTec; -- Borra la base de datos si existe
 
-use TireTec;
+create database if not exists TireTec; -- Crea la base si no existe
+
+use TireTec; -- Selecciona la base a usar
+
+drop table if exists producto,proveedor,cliente,inventario,ordenventa,ordencompra,detallecompra,detalleventa;
 
 create table Producto (
 	IdProducto int not null Auto_increment,
@@ -48,7 +52,7 @@ create table Inventario (
 
 create table OrdenVenta (
 	IdOrdenVenta int not null,
-    IdCliente int not null,
+    IdCliente varchar(255) not null,
     TotalVenta float(10,2) not null,
     Fecha Date,
     Hora time,
@@ -88,4 +92,7 @@ create table DetalleVenta (
 	foreign key (IdProducto) references Producto(IdProducto)
 );
 
--- drop database TireTec
+insert into producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion) values
+	('Leche en polvo',3.60,3.05,'Producto lácteo en polvo listo para mezclar con agua caliente y servir'),
+    ('Comida para perro BuenCan',4.66,4.05,'Cachorros - Razas Grandes');
+
