@@ -37,4 +37,55 @@ create table Cliente (
     check (TipoCliente='MAYORISTA' or TipoCliente='MINORISTA')
 );
 
+create table Inventario (
+	IdInventario int not null,
+    IdProducto int not null,
+    Stock int not null,
+    Observaciones varchar(255),
+    primary key(IdInventario),
+    foreign key(IdProducto) references Producto(IdProducto)
+);
+
+create table OrdenVenta (
+	IdOrdenVenta int not null,
+    IdCliente int not null,
+    TotalVenta float(10,2) not null,
+    Fecha Date,
+    Hora time,
+    primary key (IdOrdenVenta),
+    foreign key (IdCliente) references Cliente(Cedula)
+);
+
+create table OrdenCompra (
+	IdOrdenCompra int not null,
+    IdProveedor int not null,
+    TotalCompra float(10,2) not null,
+    Fecha date,
+    hora time,
+    primary key (IdOrdenCompra),
+    foreign key (IdProveedor) references Proveedor(IdProveedor)
+);
+
+create table DetalleCompra (
+	IdDetalleCompra int not null,
+    IdOrdenCompra int not null,
+    IdProducto int not null,
+    Precio float(5,2) not null,
+    Cantidad int not null,
+    primary key (IdDetalleCompra),
+    foreign key (IdOrdenCompra) references OrdenCompra(IdOrdenCompra),
+	foreign key (IdProducto) references Producto(IdProducto)
+);
+
+create table DetalleVenta (
+	IdDetalleVenta int not null,
+    IdOrdenVenta int not null,
+    IdProducto int not null,
+    Precio float(5,2) not null,
+    Cantidad int not null,
+    primary key (IdDetalleVenta),
+    foreign key (IdOrdenVenta) references OrdenVenta(IdOrdenVenta),
+	foreign key (IdProducto) references Producto(IdProducto)
+);
+
 -- drop database TireTec
