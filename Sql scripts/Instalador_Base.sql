@@ -4,7 +4,7 @@ create database if not exists TireTec; -- Crea la base si no existe
 
 use TireTec; -- Selecciona la base a usar
 
-drop table if exists producto,proveedor,cliente,inventario,ordenventa,ordencompra,detallecompra,detalleventa;
+-- drop table if exists producto,proveedor,cliente,inventario,ordenventa,ordencompra,detallecompra,detalleventa;
 
 create table Producto (
 	IdProducto int not null Auto_increment,
@@ -36,7 +36,7 @@ create table Cliente (
     Apellidos varchar(255) not null,
     Direccion varchar(255),
     Email varchar(255),
-    TipoCliente varchar(10) not null,
+    TipoCliente varchar(10) not null default 'MINORISTA',
     primary key(Cedula),
     check (TipoCliente='MAYORISTA' or TipoCliente='MINORISTA')
 );
@@ -92,7 +92,42 @@ create table DetalleVenta (
 	foreign key (IdProducto) references Producto(IdProducto)
 );
 
-insert into producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion) values
-	('Leche en polvo',3.60,3.05,'Producto lácteo en polvo listo para mezclar con agua caliente y servir'),
-    ('Comida para perro BuenCan',4.66,4.05,'Cachorros - Razas Grandes');
+delimiter $$
+create procedure insertarProducto (in nombre varchar(255),
+								   in precioP float(5,2),
+								   in precioM float(5,2), 
+                                   in descri varchar(255))
+begin
+	insert into Producto(nombreproducto,preciopublico,preciomayorista,descripcion)
+    values(nombre,precioP,precioM,descri);
+end$$
+delimiter ;
+
+delimiter $$
+create procedure insertarProveedor (in nombre varchar(255),
+									in telefono varchar(30),
+                                    in email varchar(255),
+                                    in direccion varchar(255), 
+                                    in pais varchar(50), 
+                                    in ciudad varchar(50))
+begin
+	insert into Proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad)
+    values(nombre,telefono,email,direccion,pais,ciudad);
+end$$
+delimiter ;
+
+delimiter $$
+create procedure insertarCliente (in Cedula varchar(10),
+								  in Ruc varchar(15),
+                                  in Pasaporte varchar(30),
+                                  in Nombres varchar(255),
+                                  in Apellidos varchar(255),
+                                  in Direccion varchar(255),
+                                  in Email varchar(255),
+                                  in TipoCliente varchar(10))
+begin
+	insert into Cliente(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente)
+    values(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente);
+end$$
+delimiter ;
 

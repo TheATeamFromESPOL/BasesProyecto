@@ -5,6 +5,7 @@
  */
 package parchapp.interfaz;
 
+import java.sql.Connection;
 import parchapp.*;
 
 /**
@@ -138,6 +139,11 @@ public class Interfaz1 extends javax.swing.JFrame {
         });
 
         jButton1.setText("Ingresar Producto");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
 
@@ -363,6 +369,10 @@ public class Interfaz1 extends javax.swing.JFrame {
         rot.setVisible(true);
         this.setVisible(false);// TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton8ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

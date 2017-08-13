@@ -64,5 +64,4 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
     
-    
 }
