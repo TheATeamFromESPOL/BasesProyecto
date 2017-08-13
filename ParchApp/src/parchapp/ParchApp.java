@@ -6,7 +6,6 @@
 package parchapp;
 
 import parchapp.interfaz.Interfaz1;
-
 /**
  *
  * @author Usuario

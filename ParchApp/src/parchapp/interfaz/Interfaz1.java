@@ -5,7 +5,7 @@
  */
 package parchapp.interfaz;
 
-import java.sql.Connection;
+import java.sql.*;
 import parchapp.*;
 
 /**
@@ -13,11 +13,13 @@ import parchapp.*;
  * @author User
  */
 public class Interfaz1 extends javax.swing.JFrame {
-
+    
+    Connector c;
     /**
      * Creates new form Interfaz1
      */
     public Interfaz1() {
+        c = new Connector();
         initComponents();
     }
 
@@ -89,6 +91,12 @@ public class Interfaz1 extends javax.swing.JFrame {
         jLabel10.setText("Costo Proveedor 2");
 
         jLabel11.setText("Costo Proveedor 3");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -371,8 +379,13 @@ public class Interfaz1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        Producto p = new Producto(jTextField4.getText(),Float.parseFloat(jTextField2.getText()),Float.parseFloat(jTextField3.getText()),jTextArea1.getText());
+        c.insertarProducto(p);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
