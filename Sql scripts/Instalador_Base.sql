@@ -6,6 +6,12 @@ use TireTec; -- Selecciona la base a usar
 
 -- drop table if exists producto,proveedor,cliente,inventario,ordenventa,ordencompra,detallecompra,detalleventa;
 
+create table usuario (
+	usuario varchar(20) not null,
+    clave varchar(20) not null,
+    primary key (usuario)
+);
+
 create table Producto (
 	IdProducto int not null Auto_increment,
     NombreProducto varchar(50) not null,
@@ -26,6 +32,16 @@ create table Proveedor (
     Pais varchar(50) Default 'Ecuador',
     Ciudad varchar(50),
     primary key(IdProveedor)
+);
+
+create table Producto_Proveedor(
+	Id int not null auto_increment,
+    IdProducto int not null,
+    IdProveedor int not null,
+    Costo float(5,2),
+    primary key (Id),
+    foreign key(IdProducto) references Producto(IdProducto),
+    foreign key(IdProveedor) references Proveedor(IdProveedor)
 );
 
 create table Cliente (
@@ -52,11 +68,13 @@ create table Inventario (
 
 create table OrdenVenta (
 	IdOrdenVenta int not null,
+    Usuario varchar(20) not null,
     IdCliente varchar(255) not null,
     TotalVenta float(10,2) not null,
     Fecha Date,
     Hora time,
     primary key (IdOrdenVenta),
+    foreign key (Usuario) references usuario(usuario),
     foreign key (IdCliente) references Cliente(Cedula)
 );
 
@@ -131,3 +149,47 @@ begin
 end$$
 delimiter ;
 
+delimiter $$
+create procedure visualizarProductos()
+begin
+	select *
+    from producto;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure visualizarClientes()
+begin
+	select *
+    from clientes;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure visualizarProveedores()
+begin
+	select *
+    from proveedor;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure ListarProductosDisponibles()
+begin
+	select p.NombreProducto, sum(i.Stock)
+    from producto p join inventario i on p.IdProducto=i.IdProducto
+    group by p.IdProducto
+    order by p.NombreProducto;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure acceder(in usuario varchar(20), in contra varchar(20), out valido int)
+begin
+	select usuario
+    from usuario u
+    where u.clave = contra and u.usuario = usuario;
+    
+    
+end$$
+delimiter ;

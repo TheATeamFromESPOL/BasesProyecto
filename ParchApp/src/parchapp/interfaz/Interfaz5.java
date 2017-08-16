@@ -344,7 +344,7 @@ public class Interfaz5 extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-       Interfaz1 pro=new Interfaz1();
+       IngresoProducto pro=new IngresoProducto();
        pro.setVisible(true);
         this.setVisible(false); // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton4ActionPerformed

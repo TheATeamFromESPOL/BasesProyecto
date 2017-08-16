@@ -42,11 +42,24 @@ public class Connector {
             cs.setFloat(2, producto.getPrecioPublico());
             cs.setFloat(3, producto.getPrecioMayorista());
             cs.setString(4, producto.getDescripcion());
-            ResultSet rs = cs.executeQuery();
+            cs.executeQuery();
             System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-        
     }
+    /*
+    public boolean iniciarSesion(Usuario usuario){
+        String cadena = "{CALL acceder(?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, usuario.getUsuario());
+            cs.setString(2, usuario.getContraseña());
+            cs.executeQuery();
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+    */
 }
