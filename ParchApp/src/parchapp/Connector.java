@@ -48,18 +48,20 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
-    /*
+    
     public boolean iniciarSesion(Usuario usuario){
-        String cadena = "{CALL acceder(?,?)}";
+        String cadena = "{? = CALL acceder(?,?)}";
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
-            cs.setString(1, usuario.getUsuario());
-            cs.setString(2, usuario.getContraseña());
-            cs.executeQuery();
+            cs.registerOutParameter(1, java.sql.Types.VARCHAR);
+            cs.setString(2, usuario.getUsuario());
+            cs.setString(3, usuario.getContraseña());
+            cs.execute();
+            String output = cs.getString(1);
+            if(!output.equals("")) return true;
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
         return false;
     }
-    */
 }

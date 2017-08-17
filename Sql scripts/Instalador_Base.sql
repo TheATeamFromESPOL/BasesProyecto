@@ -12,6 +12,9 @@ create table usuario (
     primary key (usuario)
 );
 
+insert into usuario
+values ('admin','1234');
+
 create table Producto (
 	IdProducto int not null Auto_increment,
     NombreProducto varchar(50) not null,
@@ -184,12 +187,15 @@ end$$
 delimiter ;
 
 delimiter $$
-create procedure acceder(in usuario varchar(20), in contra varchar(20), out valido int)
+create function acceder(usuario varchar(20), contra varchar(20)) returns varchar(20) deterministic
 begin
-	select usuario
+	declare encontrado varchar(20) default "";
+	
+	select u.usuario into encontrado
     from usuario u
-    where u.clave = contra and u.usuario = usuario;
+    where u.usuario = usuario and u.clave=contra;
     
-    
+    return encontrado;
 end$$
 delimiter ;
+

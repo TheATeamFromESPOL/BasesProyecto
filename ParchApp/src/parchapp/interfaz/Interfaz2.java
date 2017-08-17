@@ -125,6 +125,12 @@ public class Interfaz2 extends javax.swing.JFrame {
             }
         });
 
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("Cedula");
 
         jLabel3.setText("RUC");
@@ -329,8 +335,8 @@ public class Interfaz2 extends javax.swing.JFrame {
 
     private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
         Interfaz6 tran=new Interfaz6();
-       tran.setVisible(true);
-       this.setVisible(false);// TODO add your handling code here:
+        tran.setVisible(true);
+        this.setVisible(false);// TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton6ActionPerformed
 
     private void jRadioButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton7ActionPerformed
@@ -344,6 +350,10 @@ public class Interfaz2 extends javax.swing.JFrame {
        rot.setVisible(true);
        this.setVisible(false);// TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton8ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
 
     /**
      * @param args the command line arguments

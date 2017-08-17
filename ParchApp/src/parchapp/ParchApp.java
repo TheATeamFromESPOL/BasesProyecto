@@ -5,7 +5,7 @@
  */
 package parchapp;
 
-import parchapp.interfaz.IngresoProducto;
+import parchapp.interfaz.*;
 /**
  *
  * @author Usuario
@@ -17,7 +17,7 @@ public class ParchApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        IngresoProducto.main(args);
+        NewJFrame.main(args);
     }
     
 }
