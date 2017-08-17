@@ -17,7 +17,7 @@ public class ParchApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        NewJFrame.main(args);
+        Sesion.main(args);
     }
     
 }
