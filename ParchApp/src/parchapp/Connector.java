@@ -6,6 +6,8 @@
 package parchapp;
 
 import java.sql.*;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -43,7 +45,28 @@ public class Connector {
             cs.setFloat(3, producto.getPrecioMayorista());
             cs.setString(4, producto.getDescripcion());
             cs.executeQuery();
-            System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+            JOptionPane.showMessageDialog(null,"Producto ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void insertarCliente(Cliente cliente){
+        String cadena = "{CALL insertarCliente(?,?,?,?,?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, cliente.getCedula());
+            cs.setString(2, cliente.getRuc());
+            cs.setString(3, cliente.getPasaporte());
+            cs.setString(4, cliente.getNombres());
+            cs.setString(5, cliente.getApellidos());
+            cs.setString(6, cliente.getDireccion());
+            cs.setString(7, cliente.getEmail());
+            cs.setString(8, cliente.getTipoCliente());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Cliente ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
@@ -63,5 +86,20 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
         return false;
+    }
+    
+    public ArrayList<String> cargarProveedores(){
+        ArrayList<String> proveedores = new ArrayList();
+        String cadena = "{CALL ListarProveedores()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                proveedores.add(rs.getString(1));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return proveedores;
     }
 }

@@ -41,7 +41,6 @@ create table Producto_Proveedor(
 	Id int not null auto_increment,
     IdProducto int not null,
     IdProveedor int not null,
-    Costo float(5,2),
     primary key (Id),
     foreign key(IdProducto) references Producto(IdProducto),
     foreign key(IdProveedor) references Proveedor(IdProveedor)
@@ -187,6 +186,15 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure ListarProveedores()
+begin
+	select NombreProveedor
+    from Proveedor
+    order by NombreProveedor;
+end$$
+delimiter ;
+
+delimiter $$
 create function acceder(usuario varchar(20), contra varchar(20)) returns varchar(20) deterministic
 begin
 	declare encontrado varchar(20) default "";
@@ -199,3 +207,6 @@ begin
 end$$
 delimiter ;
 
+insert into proveedor(NombreProveedor) values ('hue');
+insert into proveedor(NombreProveedor) values ('JAJA');
+insert into proveedor(NombreProveedor) values ('lol');
