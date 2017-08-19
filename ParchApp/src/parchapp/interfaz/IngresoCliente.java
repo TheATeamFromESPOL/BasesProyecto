@@ -5,6 +5,7 @@
  */
 package parchapp.interfaz;
 
+import javax.swing.JOptionPane;
 import parchapp.Cliente;
 import parchapp.Connector;
 
@@ -246,18 +247,36 @@ public class IngresoCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String ruc = "";
-        String pas = "";
-        if(jCheckBox1.isSelected()) ruc = jTextField2.getText();
-        if(jCheckBox2.isSelected()) pas = jTextField3.getText();
-        String email = jTextField7.getText() + jTextField8.getText();
-        String tipo = "";
-        if(jRadioButton1.isSelected()) tipo = "MINORISTA";
-        else if (jRadioButton2.isSelected()) tipo = "MAYORISTA";
-        Cliente cli = new Cliente(jTextField1.getText(),ruc,pas,jTextField4.getText(),jTextField5.getText(),jTextField6.getText(),email,tipo);
-        c.insertarCliente(cli);
+        if(validar()){
+            String ruc = "";
+            String pas = "";
+            if(jCheckBox1.isSelected()) ruc = jTextField2.getText();
+            if(jCheckBox2.isSelected()) pas = jTextField3.getText();
+            String email = jTextField7.getText() + jTextField8.getText();
+            String tipo = "";
+            if(jRadioButton1.isSelected()) tipo = "MINORISTA";
+            else if (jRadioButton2.isSelected()) tipo = "MAYORISTA";
+            Cliente cli = new Cliente(jTextField1.getText(),ruc,pas,jTextField4.getText(),jTextField5.getText(),jTextField6.getText(),email,tipo);
+            c.insertarCliente(cli);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    public boolean validar(){
+        boolean valido = true;
+        if(jTextField1.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Ingrese un cliente valido");
+            return false;
+        }
+        if(jTextField4.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre valido");
+            return false;
+        }
+        if(jTextField5.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Ingrese un apellido valido");
+            return false;
+        }
+        return valido;
+    }
     /**
      * @param args the command line arguments
      */

@@ -5,6 +5,7 @@
  */
 package parchapp.interfaz;
 
+import javax.swing.JOptionPane;
 import parchapp.*;
 
 /**
@@ -225,8 +226,10 @@ public class IngresoProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(validar()){
         Producto p = new Producto(jTextField1.getText(),Float.parseFloat(jTextField2.getText()),Float.parseFloat(jTextField4.getText()),jTextArea1.getText());
         c.insertarProducto(p);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -259,7 +262,28 @@ public class IngresoProducto extends javax.swing.JFrame {
         else
             jComboBox1.setEnabled(false);
     }//GEN-LAST:event_jCheckBox1ActionPerformed
-
+    public boolean validar(){
+        boolean valido = true;
+        if(jTextField1.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Ingrese un producto valido");
+            return false;
+        }
+        try{
+            Float.parseFloat(jTextField2.getText());
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Precio al publico incorrecto");
+            return false;
+        }
+        try{
+            Float.parseFloat(jTextField4.getText());
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Precio al mayorista incorrecto");
+            return false;
+        }
+        return valido;
+    }
     /**
      * @param args the command line arguments
      */

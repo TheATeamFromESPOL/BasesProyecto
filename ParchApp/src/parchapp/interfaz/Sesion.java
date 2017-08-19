@@ -5,10 +5,8 @@
  */
 package parchapp.interfaz;
 
-import java.awt.event.KeyEvent;
-import static java.awt.event.KeyEvent.VK_ENTER;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
+import static java.awt.event.KeyEvent.*;
+import javax.swing.JOptionPane;
 import parchapp.Connector;
 import parchapp.Usuario;
 
@@ -198,7 +196,9 @@ public class Sesion extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jPasswordField1KeyPressed
-    
+    public void alerta(){
+        JOptionPane.showMessageDialog(null, "El usuario o la contraseña están incorrectos");
+    }
     public void ingreso(){
         String contra = new String(jPasswordField1.getPassword());
         Usuario user = new Usuario(jTextField1.getText(),contra);
@@ -207,7 +207,7 @@ public class Sesion extends javax.swing.JFrame {
             this.setVisible(false);
             dispose();
         }else
-            System.out.println("El usuario o la contraseña están incorrectos.");
+            alerta();
     }
     
        /**
@@ -245,7 +245,7 @@ public class Sesion extends javax.swing.JFrame {
             }
         });
     }
-
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
