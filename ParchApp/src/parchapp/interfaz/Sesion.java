@@ -5,6 +5,10 @@
  */
 package parchapp.interfaz;
 
+import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_ENTER;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
 import parchapp.Connector;
 import parchapp.Usuario;
 
@@ -50,6 +54,16 @@ public class Sesion extends javax.swing.JFrame {
         jLabel3.setText("Contraseña:");
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
 
         jButton1.setText("Ingresar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -80,6 +94,11 @@ public class Sesion extends javax.swing.JFrame {
         });
 
         jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,14 +169,7 @@ public class Sesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String contra = new String(jPasswordField1.getPassword());
-        Usuario user = new Usuario(jTextField1.getText(),contra);
-        if(c.iniciarSesion(user)){
-            new MenuPrincipal().setVisible(true);
-            this.setVisible(false);
-            dispose();
-        }else
-            System.out.println("El usuario o la contraseña están incorrectos.");
+        ingreso();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -170,7 +182,35 @@ public class Sesion extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        if(evt.getKeyCode() == VK_ENTER){
+            ingreso();
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        if(evt.getKeyCode() == VK_ENTER){
+            ingreso();
+        }
+        
+    }//GEN-LAST:event_jPasswordField1KeyPressed
+    
+    public void ingreso(){
+        String contra = new String(jPasswordField1.getPassword());
+        Usuario user = new Usuario(jTextField1.getText(),contra);
+        if(c.iniciarSesion(user)){
+            new MenuPrincipal().setVisible(true);
+            this.setVisible(false);
+            dispose();
+        }else
+            System.out.println("El usuario o la contraseña están incorrectos.");
+    }
+    
+       /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -218,3 +258,5 @@ public class Sesion extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
+
+
