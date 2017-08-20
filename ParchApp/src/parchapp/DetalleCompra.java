@@ -11,12 +11,12 @@ package parchapp;
  */
 public class DetalleCompra {
     private int idDetalleCompra;
-    private OrdenCompra idOrdenCompra;
-    private Producto idProducto;
+    private int idOrdenCompra;
+    private int idProducto;
     private float precio;
     private int cantidad;
 
-    public DetalleCompra(int idDetalleCompra, OrdenCompra idOrdenCompra, Producto idProducto, float precio, int cantidad) {
+    public DetalleCompra(int idDetalleCompra, int idOrdenCompra, int idProducto, float precio, int cantidad) {
         this.idDetalleCompra = idDetalleCompra;
         this.idOrdenCompra = idOrdenCompra;
         this.idProducto = idProducto;
@@ -32,19 +32,19 @@ public class DetalleCompra {
         this.idDetalleCompra = idDetalleCompra;
     }
 
-    public OrdenCompra getIdOrdenCompra() {
+    public int getIdOrdenCompra() {
         return idOrdenCompra;
     }
 
-    public void setIdOrdenCompra(OrdenCompra idOrdenCompra) {
+    public void setIdOrdenCompra(int idOrdenCompra) {
         this.idOrdenCompra = idOrdenCompra;
     }
 
-    public Producto getIdProducto() {
+    public int getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(Producto idProducto) {
+    public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
     }
 

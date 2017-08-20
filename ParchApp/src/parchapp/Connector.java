@@ -118,12 +118,12 @@ public class Connector {
         return paises;
     }
     
-    public ArrayList<String> cargarCiudades(Pais pais){
+    public ArrayList<String> cargarCiudades(String pais){
         ArrayList<String> ciudades = new ArrayList();
         String cadena = "{CALL CargarCiudadesPorPais(?)}";
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
-            cs.setString(1, pais.getNombrePais());
+            cs.setString(1, pais);
             ResultSet rs = cs.executeQuery();
             while(rs.next()){
                 ciudades.add(rs.getString(1));
@@ -132,5 +132,9 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
         return ciudades;
+    }
+    
+    public void insertarProveedor(Proveedor proveedor){
+        String cadena = "{CALL insertarProveedor(?,?,?,?,?,?,?,?)}";
     }
 }

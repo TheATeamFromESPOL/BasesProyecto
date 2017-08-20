@@ -228,7 +228,7 @@ create procedure CargarCiudadesPorPais(in nompais varchar(255))
 begin
 	select c.NombreCiudad
     from Ciudad c join Pais p on c.IdPais=p.IdPais
-    where p.NomPais = nompais
+    where p.NombrePais = nompais
     order by c.NombreCiudad;
 end$$
 delimiter ;

@@ -15,10 +15,10 @@ public class Proveedor {
     private String telefono;
     private String email;
     private String direccion;
-    private Pais pais;
-    private Ciudad ciudad;
+    private int pais;
+    private int ciudad;
 
-    public Proveedor(int idProveedor, String nombreProveedor, String telefono, String email, String direccion, Pais pais, Ciudad ciudad) {
+    public Proveedor(int idProveedor, String nombreProveedor, String telefono, String email, String direccion, int pais, int ciudad) {
         this.idProveedor = idProveedor;
         this.nombreProveedor = nombreProveedor;
         this.telefono = telefono;
@@ -68,19 +68,19 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
-    public Pais getPais() {
+    public int getPais() {
         return pais;
     }
 
-    public void setPais(Pais pais) {
+    public void setPais(int pais) {
         this.pais = pais;
     }
 
-    public Ciudad getCiudad() {
+    public int getCiudad() {
         return ciudad;
     }
 
-    public void setCiudad(Ciudad ciudad) {
+    public void setCiudad(int ciudad) {
         this.ciudad = ciudad;
     }
     

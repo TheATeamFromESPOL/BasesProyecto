@@ -12,9 +12,9 @@ package parchapp;
 public class Ciudad {
     private int idCiudad;
     private String nombreCiudad;
-    private Pais pais;
+    private int pais;
 
-    public Ciudad(int idCiudad, String nombreCiudad, Pais pais) {
+    public Ciudad(int idCiudad, String nombreCiudad, int pais) {
         this.idCiudad = idCiudad;
         this.nombreCiudad = nombreCiudad;
         this.pais = pais;
@@ -36,11 +36,11 @@ public class Ciudad {
         this.nombreCiudad = nombreCiudad;
     }
 
-    public Pais getPais() {
+    public int getPais() {
         return pais;
     }
 
-    public void setPais(Pais pais) {
+    public void setPais(int pais) {
         this.pais = pais;
     }
       

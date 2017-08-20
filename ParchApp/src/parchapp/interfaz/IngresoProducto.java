@@ -126,6 +126,11 @@ public class IngresoProducto extends javax.swing.JFrame {
         });
 
         jComboBox1.setEnabled(false);
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jCheckBox2.setText("Proveedor 2:");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -266,6 +271,10 @@ public class IngresoProducto extends javax.swing.JFrame {
         else
             jComboBox1.setEnabled(false);
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
     public boolean validar(){
         boolean valido = true;
         if(jTextField1.getText().trim().equals("")){

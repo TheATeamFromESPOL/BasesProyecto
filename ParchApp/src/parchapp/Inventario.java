@@ -11,11 +11,11 @@ package parchapp;
  */
 public class Inventario {
     private int idInventario;
-    private Producto idProducto;
+    private int idProducto;
     private int stock;
     private String observaciones;
 
-    public Inventario(int idInventario, Producto idProducto, int stock, String observaciones) {
+    public Inventario(int idInventario, int idProducto, int stock, String observaciones) {
         this.idInventario = idInventario;
         this.idProducto = idProducto;
         this.stock = stock;
@@ -30,11 +30,11 @@ public class Inventario {
         this.idInventario = idInventario;
     }
 
-    public Producto getIdProducto() {
+    public int getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(Producto idProducto) {
+    public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
     }
 

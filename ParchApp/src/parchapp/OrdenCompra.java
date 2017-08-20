@@ -14,12 +14,12 @@ import java.sql.Time;
  */
 public class OrdenCompra {
     private int idOrdenCompra;
-    private Proveedor idProveedor;
+    private int idProveedor;
     private float totalCompra;
     private Date fecha;
     private Time hora;
 
-    public OrdenCompra(int idOrdenCompra, Proveedor idProveedor, float totalCompra, Date fecha, Time hora) {
+    public OrdenCompra(int idOrdenCompra, int idProveedor, float totalCompra, Date fecha, Time hora) {
         this.idOrdenCompra = idOrdenCompra;
         this.idProveedor = idProveedor;
         this.totalCompra = totalCompra;
@@ -35,11 +35,11 @@ public class OrdenCompra {
         this.idOrdenCompra = idOrdenCompra;
     }
 
-    public Proveedor getIdProveedor() {
+    public int getIdProveedor() {
         return idProveedor;
     }
 
-    public void setIdProveedor(Proveedor idProveedor) {
+    public void setIdProveedor(int idProveedor) {
         this.idProveedor = idProveedor;
     }
 
