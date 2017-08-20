@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.awt.Color;
+import java.awt.Container;
 import javax.swing.JOptionPane;
 import parchapp.*;
 
@@ -27,6 +29,8 @@ public class IngresoProducto extends javax.swing.JFrame {
             jComboBox2.addItem(s);
             jComboBox3.addItem(s);
         }
+        Container c=this.getContentPane();
+        c.setBackground(Color.CYAN);
     }
 
     /**

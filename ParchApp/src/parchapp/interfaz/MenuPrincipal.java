@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.awt.Color;
+import java.awt.Container;
 import parchapp.Connector;
 import parchapp.Producto;
 
@@ -19,6 +21,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal() {
         initComponents();
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        Container c=this.getContentPane();
+        c.setBackground(Color.CYAN);
     }
 
     /**

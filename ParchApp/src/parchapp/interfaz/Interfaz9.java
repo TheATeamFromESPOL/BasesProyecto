@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.awt.Color;
+import java.awt.Container;
 import parchapp.*;
 
 /**
@@ -20,6 +22,8 @@ public class Interfaz9 extends javax.swing.JFrame {
     public Interfaz9(boolean es) {
         est=es;
         initComponents();
+        Container c=this.getContentPane();
+        c.setBackground(Color.CYAN);
     }
 
     /**

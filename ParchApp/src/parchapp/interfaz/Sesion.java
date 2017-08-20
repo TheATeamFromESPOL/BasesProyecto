@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.awt.Color;
+import java.awt.Container;
 import static java.awt.event.KeyEvent.*;
 import javax.swing.JOptionPane;
 import parchapp.Connector;
@@ -22,6 +24,8 @@ public class Sesion extends javax.swing.JFrame {
     public Sesion() {
         c = new Connector();
         initComponents();
+        Container c=this.getContentPane();
+        c.setBackground(Color.CYAN);
     }
 
     /**

@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.awt.Color;
+import java.awt.Container;
 import parchapp.*;
 
 /**
@@ -18,6 +20,8 @@ public class IngresarProveedor extends javax.swing.JFrame {
      */
     public IngresarProveedor() {
         initComponents();
+        Container c=this.getContentPane();
+        c.setBackground(Color.CYAN);
     }
 
     /**

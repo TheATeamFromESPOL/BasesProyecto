@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.awt.Color;
+import java.awt.Container;
 import javax.swing.JOptionPane;
 import parchapp.Cliente;
 import parchapp.Connector;
@@ -24,6 +26,8 @@ public class IngresoCliente extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        Container c=this.getContentPane();
+        c.setBackground(Color.CYAN);
     }
 
     /**
