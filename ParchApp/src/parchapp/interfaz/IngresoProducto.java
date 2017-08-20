@@ -161,9 +161,9 @@ public class IngresoProducto extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(14, 14, 14)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,13 +203,13 @@ public class IngresoProducto extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
                         .addComponent(jLabel3)
                         .addComponent(jLabel4)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -227,7 +227,7 @@ public class IngresoProducto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox3)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -236,8 +236,25 @@ public class IngresoProducto extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(validar()){
-        Producto p = new Producto(jTextField1.getText(),Float.parseFloat(jTextField2.getText()),Float.parseFloat(jTextField4.getText()),jTextArea1.getText());
-        c.insertarProducto(p);
+            Producto p = new Producto(jTextField1.getText(),Float.parseFloat(jTextField2.getText()),Float.parseFloat(jTextField4.getText()),jTextArea1.getText());
+            c.insertarProducto(p);
+            int idProd = c.obtenerIdProducto(jTextField1.getText());
+            int idProv;
+            if(jCheckBox1.isSelected()){
+                System.out.println((String)jComboBox1.getSelectedItem());
+                idProv = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
+                c.insertarProducto_Proveedor(idProd,idProv);
+            }
+            if(jCheckBox2.isSelected()){
+                System.out.println((String)jComboBox1.getSelectedItem());
+                idProv = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
+                c.insertarProducto_Proveedor(idProd,idProv);
+            }
+            if(jCheckBox3.isSelected()){
+                System.out.println((String)jComboBox1.getSelectedItem());
+                idProv = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
+                c.insertarProducto_Proveedor(idProd,idProv);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

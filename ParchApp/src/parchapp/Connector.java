@@ -35,23 +35,6 @@ public class Connector {
         }
         return conn;
     }
-    
-    public void insertarProducto(Producto producto){
-        String cadena = "{CALL insertarProducto(?,?,?,?)}";
-        try{
-            CallableStatement cs = this.getConnection().prepareCall(cadena);
-            cs.setString(1, producto.getNombreProducto());
-            cs.setFloat(2, producto.getPrecioPublico());
-            cs.setFloat(3, producto.getPrecioMayorista());
-            cs.setString(4, producto.getDescripcion());
-            cs.executeQuery();
-            JOptionPane.showMessageDialog(null,"Producto ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
-            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
-        }catch(SQLException ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-    
     public void insertarCliente(Cliente cliente){
         String cadena = "{CALL insertarCliente(?,?,?,?,?,?,?,?)}";
         try{
@@ -66,6 +49,36 @@ public class Connector {
             cs.setString(8, cliente.getTipoCliente());
             cs.executeQuery();
             JOptionPane.showMessageDialog(null,"Cliente ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void insertarProducto(Producto producto){
+        String cadena = "{CALL insertarProducto(?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, producto.getNombreProducto());
+            cs.setFloat(2, producto.getPrecioPublico());
+            cs.setFloat(3, producto.getPrecioMayorista());
+            cs.setString(4, producto.getDescripcion());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void insertarProducto_Proveedor(int idProd, int idProv){
+        String cadena = "{CALL insertarProducto_Proveedor(?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, idProd);
+            cs.setInt(2, idProv);
+            cs.executeQuery();
             //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -180,6 +193,83 @@ public class Connector {
             cs.setInt(6, proveedor.getCiudad());
             cs.executeQuery();
             JOptionPane.showMessageDialog(null,"Proveedor ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public int obtenerIdProveedorProd(int idProd){
+        System.out.println("nomProd: "+ idProd );
+        String cadena = "{? = CALL obtenerIdProveedor(?)}";
+        int salida = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.setInt(2, idProd);
+            cs.execute();
+            salida = cs.getInt(1);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("IdProveedor: " + salida);
+        return salida;
+    }
+    
+    public int obtenerIdProducto(String nomProd){
+        System.out.println("nomProd: "+nomProd );
+        String cadena = "{? = CALL obtenerIdProveedor(?)}";
+        int salida = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.setString(2, nomProd);
+            cs.execute();
+            salida = cs.getInt(1);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("IdProveedor: " + salida);
+        return salida;
+    }
+    
+    public int obtenerIdProveedor(String nomProv){
+        System.out.println("nomProv: "+nomProv );
+        String cadena = "{? = CALL obtenerIdProveedor(?)}";
+        int salida = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.setString(2, nomProv);
+            cs.execute();
+            salida = cs.getInt(1);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("IdProveedor: " + salida);
+        return salida;
+    }
+    
+    public void eliminarProveedor(int idProveedor, int idProducto){
+        String cadena = "{CALL eliminarProveedor(?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, idProveedor);
+            cs.setInt(2, idProducto);
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Proveedor eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    public void eliminarProducto(String nombProd){
+        String cadena = "{CALL eliminarProducto(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, nombProd);
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
             //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
