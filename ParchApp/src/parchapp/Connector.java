@@ -28,7 +28,7 @@ public class Connector {
     public Connection getConnection() {
         try {
             conn = DriverManager.getConnection(url, user, pswd);
-            System.out.println("Se generó la conexion. ");
+            //System.out.println("Se generó la conexion. ");
         } catch (Exception ex) {
             System.out.println("error occured " + ex.toString());
             System.out.println("No se generó la conexion. ");
@@ -134,7 +134,55 @@ public class Connector {
         return ciudades;
     }
     
+    public int obtenerIdPais(String nomPais){
+        String cadena = "{? = CALL obtenerIdPais(?)}";
+        int salida = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.setString(2, nomPais);
+            cs.execute();
+            salida = cs.getInt(1);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("IdPais: " + salida);
+        return salida;
+    }
+    
+    public int obtenerIdCiudad(String nomPais,String nomCiudad){
+        System.out.println("nomPais: "+nomPais + " nomCiudad: "+nomCiudad);
+        String cadena = "{? = CALL obtenerIdCiudad(?,?)}";
+        int salida = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.setString(2, nomCiudad);
+            cs.setString(3, nomPais);
+            cs.execute();
+            salida = cs.getInt(1);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("IdCiudad: " + salida);
+        return salida;
+    }
+    
     public void insertarProveedor(Proveedor proveedor){
-        String cadena = "{CALL insertarProveedor(?,?,?,?,?,?,?,?)}";
+        String cadena = "{CALL insertarProveedor(?,?,?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, proveedor.getNombreProveedor());
+            cs.setString(2, proveedor.getTelefono());
+            cs.setString(3, proveedor.getEmail());
+            cs.setString(4, proveedor.getDireccion());
+            cs.setInt(5, proveedor.getPais());
+            cs.setInt(6, proveedor.getCiudad());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Proveedor ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }

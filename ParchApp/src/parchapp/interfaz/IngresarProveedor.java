@@ -197,7 +197,12 @@ public class IngresarProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_cambioDeItem
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        int idpais = con.obtenerIdPais(String.valueOf(jComboBox1.getSelectedItem()));
+        int idciudad = con.obtenerIdCiudad(String.valueOf(jComboBox1.getSelectedItem()), String.valueOf(jComboBox2.getSelectedItem()));
+        Proveedor proveedor = new Proveedor(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField5.getText());
+        proveedor.setPais(idpais);
+        proveedor.setCiudad(idciudad);
+        con.insertarProveedor(proveedor);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

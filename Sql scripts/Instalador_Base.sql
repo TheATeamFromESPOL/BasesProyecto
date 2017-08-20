@@ -28,11 +28,11 @@ create table Producto (
 
 create table Pais(
 	IdPais int not null auto_increment,
-    NombrePais varchar(255) not null,
+    NombrePais varchar(255) unique not null,
     primary key (IdPais)
 );
 
-insert into Pais(NombrePais) values ('Ecuador'),('Chile'),('Perú'),('Colombia'),('Brazil'),('Argentina');
+insert into Pais(NombrePais) values ('Ecuador'),('Chile');
 
 create table Ciudad(
 	IdCiudad int not null auto_increment,
@@ -56,6 +56,8 @@ create table Proveedor (
     foreign key(Pais) references Pais(IdPais),
     foreign key(Ciudad) references Ciudad(IdCiudad)
 );
+
+insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) values ('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1);
 
 create table Producto_Proveedor(
 	Id int not null auto_increment,
@@ -148,8 +150,8 @@ create procedure insertarProveedor (in nombre varchar(255),
 									in telefono varchar(30),
                                     in email varchar(255),
                                     in direccion varchar(255), 
-                                    in pais varchar(50), 
-                                    in ciudad varchar(50))
+                                    in pais int, 
+                                    in ciudad int)
 begin
 	insert into Proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad)
     values(nombre,telefono,email,direccion,pais,ciudad);
@@ -246,7 +248,28 @@ begin
 end$$
 delimiter ;
 
+delimiter $$
+create function obtenerIdPais(nomPais varchar(255)) returns int deterministic
+begin
+	declare encontrado int;
+	
+	select IdPais into encontrado
+    from Pais
+    where NombrePais = nomPais;
+    
+    return encontrado;
+end$$
+delimiter ;
 
-insert into proveedor(NombreProveedor) values ('hue');
-insert into proveedor(NombreProveedor) values ('JAJA');
-insert into proveedor(NombreProveedor) values ('lol');
+delimiter $$
+create function obtenerIdCiudad(nomCiudad varchar(255),nomPais varchar(255)) returns int deterministic
+begin
+	declare encontrado int;
+	
+	select c.IdCiudad into encontrado
+    from Ciudad c Join Pais p On c.IdPais = p.IdPais
+    where p.NombrePais = nomPais and c.NombreCiudad = nomCiudad;
+    
+    return encontrado;
+end$$
+delimiter ;

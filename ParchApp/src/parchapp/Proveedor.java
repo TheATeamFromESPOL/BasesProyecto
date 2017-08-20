@@ -28,6 +28,13 @@ public class Proveedor {
         this.ciudad = ciudad;
     }
 
+    public Proveedor(String nombreProveedor, String telefono, String email, String direccion) {
+        this.nombreProveedor = nombreProveedor;
+        this.telefono = telefono;
+        this.email = email;
+        this.direccion = direccion;
+    }
+
     public int getIdProveedor() {
         return idProveedor;
     }
