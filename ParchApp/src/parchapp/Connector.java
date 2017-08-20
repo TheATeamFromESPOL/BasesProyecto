@@ -102,4 +102,35 @@ public class Connector {
         }
         return proveedores;
     }
+    
+    public ArrayList<String> cargarPaises(){
+        ArrayList<String> paises = new ArrayList();
+        String cadena = "{CALL CargarPaises()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                paises.add(rs.getString(1));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return paises;
+    }
+    
+    public ArrayList<String> cargarCiudades(Pais pais){
+        ArrayList<String> ciudades = new ArrayList();
+        String cadena = "{CALL CargarCiudadesPorPais(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, pais.getNombrePais());
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                ciudades.add(rs.getString(1));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return ciudades;
+    }
 }

@@ -268,15 +268,15 @@ public class IngresoCliente extends javax.swing.JFrame {
     public boolean validar(){
         boolean valido = true;
         if(jTextField1.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Ingrese un cliente valido");
+            JOptionPane.showMessageDialog(null, "Ingrese un cliente valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if(jTextField4.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Ingrese un nombre valido");
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if(jTextField5.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Ingrese un apellido valido");
+            JOptionPane.showMessageDialog(null, "Ingrese un apellido valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return valido;

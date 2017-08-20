@@ -269,21 +269,21 @@ public class IngresoProducto extends javax.swing.JFrame {
     public boolean validar(){
         boolean valido = true;
         if(jTextField1.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Ingrese un producto valido");
+            JOptionPane.showMessageDialog(null, "Ingrese un producto valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         try{
             Float.parseFloat(jTextField2.getText());
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Precio al publico incorrecto");
+            JOptionPane.showMessageDialog(null, "Precio al publico incorrecto","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         try{
             Float.parseFloat(jTextField4.getText());
         }
         catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Precio al mayorista incorrecto");
+            JOptionPane.showMessageDialog(null, "Precio al mayorista incorrecto","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return valido;

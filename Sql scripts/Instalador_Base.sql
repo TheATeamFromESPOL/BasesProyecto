@@ -26,15 +26,35 @@ create table Producto (
     check (PrecioMayorista > 0)
 );
 
+create table Pais(
+	IdPais int not null auto_increment,
+    NombrePais varchar(255) not null,
+    primary key (IdPais)
+);
+
+insert into Pais(NombrePais) values ('Ecuador'),('Chile'),('Perú'),('Colombia'),('Brazil'),('Argentina');
+
+create table Ciudad(
+	IdCiudad int not null auto_increment,
+    NombreCiudad varchar(255) not null,
+    IdPais int not null,
+    primary key(IdCiudad),
+    foreign key(IdPais) references Pais(IdPais)
+);
+
+insert into Ciudad(NombreCiudad,IdPais) values ('Guayaquil',1),('Quito',1),('Santiago',2),('Temuco',2);
+
 create table Proveedor (
 	IdProveedor int not null Auto_increment,
     NombreProveedor varchar(50) unique not null,
     Telefono varchar(30),
     Email varchar(255),
     Direccion varchar(255),
-    Pais varchar(50) Default 'Ecuador',
-    Ciudad varchar(50),
-    primary key(IdProveedor)
+    Pais int,
+    Ciudad int,
+    primary key(IdProveedor),
+    foreign key(Pais) references Pais(IdPais),
+    foreign key(Ciudad) references Ciudad(IdCiudad)
 );
 
 create table Producto_Proveedor(
@@ -195,6 +215,25 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure CargarPaises()
+begin
+	select NombrePais
+    from Pais
+    order by NombrePais;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure CargarCiudadesPorPais(in nompais varchar(255))
+begin
+	select c.NombreCiudad
+    from Ciudad c join Pais p on c.IdPais=p.IdPais
+    where p.NomPais = nompais
+    order by c.NombreCiudad;
+end$$
+delimiter ;
+
+delimiter $$
 create function acceder(usuario varchar(20), contra varchar(20)) returns varchar(20) deterministic
 begin
 	declare encontrado varchar(20) default "";
@@ -206,6 +245,7 @@ begin
     return encontrado;
 end$$
 delimiter ;
+
 
 insert into proveedor(NombreProveedor) values ('hue');
 insert into proveedor(NombreProveedor) values ('JAJA');

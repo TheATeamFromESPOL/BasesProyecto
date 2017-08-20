@@ -201,7 +201,7 @@ public class Sesion extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jPasswordField1KeyPressed
     public void alerta(){
-        JOptionPane.showMessageDialog(null, "El usuario o la contraseña están incorrectos");
+        JOptionPane.showMessageDialog(null, "El usuario o la contraseña están incorrectos","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
     }
     public void ingreso(){
         String contra = new String(jPasswordField1.getPassword());
