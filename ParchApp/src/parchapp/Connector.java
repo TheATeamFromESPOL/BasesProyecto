@@ -22,7 +22,7 @@ public class Connector {
     //Cambiar la parte '//127.0.0.1:3306/' por la ruta donde esté creada su instancia de mysql
     static final String url = "jdbc:mysql://127.0.0.1:3306/tiretec";
     static final String user = "root";
-    static final String pswd = "675744";
+    static final String pswd = "1234";
 
     public Connector() {
     }
@@ -109,10 +109,8 @@ public class Connector {
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
         String cadena = "{CALL visualizarProductos()}";
         try{
-            System.out.println("Aqui sigue1");
             CallableStatement cs = this.getConnection().prepareCall(cadena);
-            ResultSet rs = cs.executeQuery();            
-            System.out.println("Aqui sigue2");
+            ResultSet rs = cs.executeQuery();
             ResultSetMetaData rsm = rs.getMetaData();
             while(rs.next()){
                 Object[] filas = new Object[rsm.getColumnCount()];
@@ -127,6 +125,28 @@ public class Connector {
             System.out.println("Aqui sigue9");
         }catch(SQLException ex){
             System.out.println("falla");
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void cargarClientes(JTable j1,DefaultTableModel dfm){
+        ArrayList<Object[]> datos = new ArrayList<Object[]>();
+        String cadena = "{CALL visualizarClientes()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            ResultSet rs = cs.executeQuery();
+            ResultSetMetaData rsm = rs.getMetaData();
+            while(rs.next()){
+                Object[] filas = new Object[rsm.getColumnCount()];
+                for(int i = 0;i<rsm.getColumnCount();i++){
+                    filas[i]= rs.getObject(i+1);
+                }
+                datos.add(filas);
+            }
+            for(int i=0;i<datos.size();i++){
+                 dfm.addRow(datos.get(i));
+            }
+        }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
     }
