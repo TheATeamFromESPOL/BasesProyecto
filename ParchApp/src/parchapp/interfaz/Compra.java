@@ -18,7 +18,9 @@ public class Compra extends javax.swing.JFrame {
     /**
      * Creates new form Interfaz5
      */
+    Connector con;
     public Compra() {
+        con=new Connector();
         initComponents();
         Container c=this.getContentPane();
         c.setBackground(Color.CYAN);
