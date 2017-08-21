@@ -268,7 +268,7 @@ public class IngresoCliente extends javax.swing.JFrame {
     public boolean validar(){
         boolean valido = true;
         if(jTextField1.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Ingrese un cliente valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingrese una cedula valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if(jTextField4.getText().trim().equals("")){

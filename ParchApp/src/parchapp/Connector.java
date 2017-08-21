@@ -8,6 +8,8 @@ package parchapp;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -20,7 +22,7 @@ public class Connector {
     //Cambiar la parte '//127.0.0.1:3306/' por la ruta donde esté creada su instancia de mysql
     static final String url = "jdbc:mysql://127.0.0.1:3306/tiretec";
     static final String user = "root";
-    static final String pswd = "1234";
+    static final String pswd = "675744";
 
     public Connector() {
     }
@@ -71,20 +73,7 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
-    
-    public void insertarProducto_Proveedor(int idProd, int idProv){
-        String cadena = "{CALL insertarProducto_Proveedor(?,?)}";
-        try{
-            CallableStatement cs = this.getConnection().prepareCall(cadena);
-            cs.setInt(1, idProd);
-            cs.setInt(2, idProv);
-            cs.executeQuery();
-            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
-        }catch(SQLException ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-    
+        
     public boolean iniciarSesion(Usuario usuario){
         String cadena = "{? = CALL acceder(?,?)}";
         try{
@@ -114,6 +103,32 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
         return proveedores;
+    }
+    
+    public void cargarProducto(JTable j1,DefaultTableModel dfm){
+        ArrayList<Object[]> datos = new ArrayList<Object[]>();
+        String cadena = "{CALL visualizarProductos()}";
+        try{
+            System.out.println("Aqui sigue1");
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            ResultSet rs = cs.executeQuery();            
+            System.out.println("Aqui sigue2");
+            ResultSetMetaData rsm = rs.getMetaData();
+            while(rs.next()){
+                Object[] filas = new Object[rsm.getColumnCount()];
+                for(int i = 0;i<rsm.getColumnCount();i++){
+                    filas[i]= rs.getObject(i+1);
+                }
+                datos.add(filas);
+            }
+            for(int i=0;i<datos.size();i++){
+                 dfm.addRow(datos.get(i));
+            }
+            System.out.println("Aqui sigue9");
+        }catch(SQLException ex){
+            System.out.println("falla");
+            System.out.println(ex.getMessage());
+        }
     }
     
     public ArrayList<String> cargarPaises(){
@@ -199,26 +214,40 @@ public class Connector {
         }
     }
     
-    public int obtenerIdProveedorProd(int idProd){
-        System.out.println("nomProd: "+ idProd );
-        String cadena = "{? = CALL obtenerIdProveedor(?)}";
-        int salida = 0;
+    public void insertarProd_Prov(int idProd, int idProv){
+        String cadena = "{CALL insertarProd_Prov(?,?)}";
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
-            cs.registerOutParameter(1, java.sql.Types.INTEGER);
-            cs.setInt(2, idProd);
-            cs.execute();
-            salida = cs.getInt(1);
+            cs.setInt(1, idProd);
+            cs.setInt(2, idProv);
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Proveedor ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-        System.out.println("IdProveedor: " + salida);
-        return salida;
+    }
+        
+    public ArrayList<Integer> obtenerIdProv_Prod(int idProd){
+        ArrayList<Integer> idProv = new ArrayList();
+        System.out.println("idProd: "+ idProd );
+        String cadena = "{ CALL obtenerIdProv_Prod(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, idProd);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                idProv.add(rs.getInt(1));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return idProv;
     }
     
     public int obtenerIdProducto(String nomProd){
         System.out.println("nomProd: "+nomProd );
-        String cadena = "{? = CALL obtenerIdProveedor(?)}";
+        String cadena = "{? = CALL obtenerIdProducto(?)}";
         int salida = 0;
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
@@ -229,12 +258,10 @@ public class Connector {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-        System.out.println("IdProveedor: " + salida);
         return salida;
     }
     
     public int obtenerIdProveedor(String nomProv){
-        System.out.println("nomProv: "+nomProv );
         String cadena = "{? = CALL obtenerIdProveedor(?)}";
         int salida = 0;
         try{
@@ -246,12 +273,11 @@ public class Connector {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-        System.out.println("IdProveedor: " + salida);
         return salida;
     }
     
-    public void eliminarProveedor(int idProveedor, int idProducto){
-        String cadena = "{CALL eliminarProveedor(?,?)}";
+    public void eliminarProd_Prov(int idProveedor, int idProducto){
+        String cadena = "{CALL eliminarProd_Prov(?,?)}";
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
             cs.setInt(1, idProveedor);
@@ -263,6 +289,7 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
+    
     public void eliminarProducto(String nombProd){
         String cadena = "{CALL eliminarProducto(?)}";
         try{

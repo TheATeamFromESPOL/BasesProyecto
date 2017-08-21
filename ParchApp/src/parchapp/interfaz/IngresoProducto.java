@@ -241,19 +241,18 @@ public class IngresoProducto extends javax.swing.JFrame {
             int idProd = c.obtenerIdProducto(jTextField1.getText());
             int idProv;
             if(jCheckBox1.isSelected()){
-                System.out.println((String)jComboBox1.getSelectedItem());
                 idProv = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
-                c.insertarProducto_Proveedor(idProd,idProv);
+                c.insertarProd_Prov(idProd,idProv);
             }
             if(jCheckBox2.isSelected()){
                 System.out.println((String)jComboBox1.getSelectedItem());
-                idProv = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
-                c.insertarProducto_Proveedor(idProd,idProv);
+                idProv = c.obtenerIdProveedor((String)jComboBox2.getSelectedItem());
+                c.insertarProd_Prov(idProd,idProv);
             }
             if(jCheckBox3.isSelected()){
                 System.out.println((String)jComboBox1.getSelectedItem());
-                idProv = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
-                c.insertarProducto_Proveedor(idProd,idProv);
+                idProv = c.obtenerIdProveedor((String)jComboBox3.getSelectedItem());
+                c.insertarProd_Prov(idProd,idProv);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -296,6 +295,10 @@ public class IngresoProducto extends javax.swing.JFrame {
         boolean valido = true;
         if(jTextField1.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null, "Ingrese un producto valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if(c.obtenerIdProducto(jTextField1.getText())!=0){
+            JOptionPane.showMessageDialog(null, "El producto ingresado ya existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         try{
