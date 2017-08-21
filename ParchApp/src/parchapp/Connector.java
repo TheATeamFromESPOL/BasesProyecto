@@ -322,4 +322,41 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
+    
+    public Producto encontrarProductoPorNombre(String nomProd){
+        String cadena = "{CALL buscarProductoPorNombre(?)}";
+        Producto prod = new Producto();
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, nomProd);
+            ResultSet rs = cs.executeQuery();
+            rs.next();
+            prod.setNombreProducto(rs.getString(1));
+            prod.setPrecioPublico(rs.getFloat(2));
+            prod.setPrecioMayorista(rs.getFloat(3));
+            prod.setDescripcion(rs.getString(4));
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return prod;
+    }
+    
+    public Producto encontrarProductoPorId(int idProd){
+        String cadena = "{CALL buscarProductoPorId(?)}";
+        Producto prod = new Producto();
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, idProd);
+            ResultSet rs = cs.executeQuery();
+            rs.next();
+            prod.setNombreProducto(rs.getString(1));
+            prod.setPrecioPublico(rs.getFloat(2));
+            prod.setPrecioMayorista(rs.getFloat(3));
+            prod.setDescripcion(rs.getString(4));
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return prod;
+    }
+    
 }

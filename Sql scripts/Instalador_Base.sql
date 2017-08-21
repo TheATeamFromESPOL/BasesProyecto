@@ -26,6 +26,10 @@ create table Producto (
     check (PrecioMayorista > 0)
 );
 
+insert into Producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion)
+values ('Tubo para llanta',4.30,4.02,'Tubo inflable para llanta de auto.'),
+('Parche para tubo',0.30,0.25,'Parche para tapar las fugas de aire de los tubos');
+
 create table Pais(
 	IdPais int not null auto_increment,
     NombrePais varchar(255) unique not null,
@@ -343,3 +347,44 @@ begin
     values(idProd,idProv);
 end$$
 delimiter ;
+
+delimiter $$
+create procedure buscarProductoPorId(in idprod int)
+begin
+	select NombreProducto,PrecioPublico,PrecioMayorista,Descripcion
+    from producto
+    where IdProducto = idprod;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure buscarProductoPorNombre(in nomprod varchar(255))
+begin
+	select NombreProducto,PrecioPublico,PrecioMayorista,Descripcion
+    from producto
+    where NombreProducto = nomprod;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure modificarProductoPorId(in idprod int,in nomprod varchar(50),in prepub float(5,2), in premay float(5,2),in descr varchar(255))
+begin
+	update Producto
+    set NombreProducto = nomprod,PrecioPublico = prepub, PrecioMayorista = premay, Descripcion = descr
+    where IdProducto = idprod;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure modificarProductoPorNombre(in nomviejo varchar(50),in nomprod varchar(50),in prepub float(5,2), in premay float(5,2),in descr varchar(255))
+begin
+	update Producto
+    set NombreProducto = nomprod,PrecioPublico = prepub, PrecioMayorista = premay, Descripcion = descr
+    where NombreProducto = nomviejo;
+end$$
+delimiter ;
+
+
+
+select *
+from Producto;
