@@ -17,7 +17,7 @@ values ('admin','1234');
 
 create table Producto (
 	IdProducto int not null Auto_increment,
-    NombreProducto varchar(50) not null,
+    NombreProducto varchar(50) unique not null,
     PrecioPublico float(5,2) not null,
     PrecioMayorista float(5,2) not null,
     Descripcion varchar(255) Default 'No hay descripción',
@@ -217,6 +217,15 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure ListarProducto(in nombrePro varchar(255))
+begin
+	select *
+    from producto
+    where NombreProducto = nombrePro;
+end$$
+delimiter ;
+
+delimiter $$
 create procedure CargarPaises()
 begin
 	select NombrePais
@@ -271,5 +280,66 @@ begin
     where p.NombrePais = nomPais and c.NombreCiudad = nomCiudad;
     
     return encontrado;
+end$$
+delimiter ;
+
+delimiter $$
+create function obtenerIdProducto(nomProd varchar(255)) returns int deterministic
+begin
+	declare encontrado int;
+	
+	select IdProducto into encontrado
+    from producto
+    where NombreProducto = nomProd;
+    
+    return encontrado;
+end$$
+delimiter ;
+
+delimiter $$
+create function obtenerIdProveedor(nomProv varchar(255)) returns int deterministic
+begin
+	declare encontrado int;
+	
+	select IdProveedor into encontrado
+    from proveedor
+    where NombreProveedor = nomProv;
+    
+    return encontrado;
+end$$
+delimiter ;
+
+
+delimiter $$
+create procedure obtenerIdProv_Prod(idProd int) 
+begin	
+	select IdProveedor
+    from producto_proveedor
+    where IdProducto = idProd;
+    
+end$$
+delimiter ;
+
+delimiter $$
+create procedure eliminarProducto (in nombreProd varchar(255))
+begin
+	delete from producto where NombreProducto = nombreProd ;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure eliminarProd_Prov (in idProv int,
+								   in idProd int)
+begin
+	delete from producto_proveedor where IdProveedor=idProv and IdProducto=idProd;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure insertarProd_Prov (in idProd int, 
+                                    in idProv int)
+begin
+	insert into producto_proveedor(IdProducto,IdProveedor)
+    values(idProd,idProv);
 end$$
 delimiter ;
