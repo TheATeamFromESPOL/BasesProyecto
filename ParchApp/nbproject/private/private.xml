@@ -4,7 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/Connector.java</file>
-            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/interfaz/ManejoProducto.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/Producto.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/interfaz/IngresoCliente.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/interfaz/ModEliProducto.java</file>
             <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/interfaz/MenuPrincipal.java</file>
         </group>
     </open-files>

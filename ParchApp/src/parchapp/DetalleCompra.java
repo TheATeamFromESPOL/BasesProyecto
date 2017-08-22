@@ -24,6 +24,9 @@ public class DetalleCompra {
         this.cantidad = cantidad;
     }
 
+    public DetalleCompra() {
+    }
+
     public int getIdDetalleCompra() {
         return idDetalleCompra;
     }
