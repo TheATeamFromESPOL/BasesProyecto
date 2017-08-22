@@ -28,8 +28,8 @@ public class Compra extends javax.swing.JFrame {
     OrdenCompra orden;
     
     public Compra() {
+        
         con=new Connector();
-        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         detalle = new ArrayList();
         initComponents();
         Container c=this.getContentPane();
@@ -44,6 +44,7 @@ public class Compra extends javax.swing.JFrame {
         jTable1.setModel(modelo);
         orden = new OrdenCompra();
         con.cargarProductosACombo("", jComboBox2);
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -192,16 +193,18 @@ public class Compra extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(15, 15, 15)
-                                .addComponent(jRadioButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(jRadioButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
@@ -209,8 +212,8 @@ public class Compra extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(16, 16, 16)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(16, 16, 16)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,11 +330,6 @@ public class Compra extends javax.swing.JFrame {
     }
     
     public boolean validarIngresoDetalle(){
-        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar esta compra?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
-        if(respuesta==JOptionPane.NO_OPTION){
-            JOptionPane.showMessageDialog(null, "Detalle no ingresado a petición del usuario.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
-            return false;
-        }
         try{
             Float.parseFloat(jTextField3.getText());
         }catch(NumberFormatException e){
@@ -350,12 +348,19 @@ public class Compra extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Id de producto mal escrito.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if(con.encontrarProductoPorId(Integer.parseInt(jTextField5.getText())).getNombreProducto().equals("")){
-            JOptionPane.showMessageDialog(null, "No existe producto con esa ID.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
-            return false;
+        if(jRadioButton1.isSelected()){
+            if(con.encontrarProductoPorId(Integer.parseInt(jTextField5.getText())).getNombreProducto().equals("")){
+                JOptionPane.showMessageDialog(null, "No existe producto con esa ID.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(Integer.parseInt(jTextField5.getText())==1){
+                JOptionPane.showMessageDialog(null, "No existe producto con esa ID.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
         }
-        if(Integer.parseInt(jTextField5.getText())==1){
-            JOptionPane.showMessageDialog(null, "No existe producto con esa ID.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar esta compra?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
+        if(respuesta==JOptionPane.NO_OPTION){
+            JOptionPane.showMessageDialog(null, "Detalle no ingresado a petición del usuario.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         return true;
