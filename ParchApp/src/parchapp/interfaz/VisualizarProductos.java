@@ -27,13 +27,15 @@ public class VisualizarProductos extends javax.swing.JFrame {
     public VisualizarProductos() {
         c = new Connector();
         initComponents();
+        jTextField1.setEnabled(false);
+        jButton1.setEnabled(false);
         jButton2.setEnabled(true);
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         Container ca=this.getContentPane();
         ca.setBackground(Color.CYAN);
         dfm = new DefaultTableModel();
         jTable1.setModel(dfm);
-        dfm.setColumnIdentifiers(new Object[]{"id","nombre","Precio Publico","Precio Mayorista","Descripcion"});
+        dfm.setColumnIdentifiers(new Object[]{"nombre","Precio Publico","Precio Mayorista","Descripcion"});
     }
 
     /**
@@ -79,6 +81,11 @@ public class VisualizarProductos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jCheckBox1.setText("Nombre del Producto");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Llenar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -92,27 +99,29 @@ public class VisualizarProductos extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
-                        .addComponent(jButton2)))
-                .addGap(25, 29, Short.MAX_VALUE))
+                        .addComponent(jCheckBox1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addGap(26, 26, 26))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(289, 289, 289)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(jLabel12)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -120,10 +129,10 @@ public class VisualizarProductos extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jCheckBox1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addContainerGap())
+                .addGap(7, 7, 7))
         );
 
         pack();
@@ -131,37 +140,48 @@ public class VisualizarProductos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        limpiar();
         if(jCheckBox1.isSelected()){
-            jButton2.setEnabled(false);
             String nombreProd = jTextField1.getText();
             int idProd = c.obtenerIdProducto(nombreProd);
             if(idProd==0){
             JOptionPane.showMessageDialog(null, "Este producto no existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             }
             else{
-                //consultacon nombre
+                Producto p = c.encontrarProductoPorNombre(nombreProd);
+                Object[] f = new Object[4];
+                f[0] = p.getNombreProducto();
+                f[1] = p.getPrecioPublico();
+                f[2] = p.getPrecioMayorista();
+                f[3] = p.getDescripcion();
+                dfm.addRow(f);
             }
-        }
-        else{
-            jButton2.setEnabled(true);
-                
-                
-//                ArrayList<Integer> idProv = c.obtenerIdProv_Prod(idProd);
-//                for (Integer idsProv : idProv) {
-//                    c.eliminarProd_Prov(idsProv,idProd);
-//                    
-//                }
-//                c.eliminarProducto(nombreProd);
         }           
-            
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        limpiar();
         c.cargarProducto(jTable1,dfm);
     }//GEN-LAST:event_jButton2ActionPerformed
-    
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        if(jCheckBox1.isSelected()){
+            jButton2.setEnabled(false);
+            jTextField1.setEnabled(true);
+            jButton1.setEnabled(true);
+        }
+        else{
+            jButton2.setEnabled(true);
+            jTextField1.setEnabled(false);
+            jButton1.setEnabled(false);
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    public void limpiar(){
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            dfm.removeRow(i);
+            i-=1;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -192,33 +212,7 @@ public class VisualizarProductos extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

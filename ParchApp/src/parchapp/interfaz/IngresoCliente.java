@@ -256,7 +256,7 @@ public class IngresoCliente extends javax.swing.JFrame {
             String pas = "";
             if(jCheckBox1.isSelected()) ruc = jTextField2.getText();
             if(jCheckBox2.isSelected()) pas = jTextField3.getText();
-            String email = jTextField7.getText() + jTextField8.getText();
+            String email = jTextField7.getText() +"@"+ jTextField8.getText();
             String tipo = "";
             if(jRadioButton1.isSelected()) tipo = "MINORISTA";
             else if (jRadioButton2.isSelected()) tipo = "MAYORISTA";

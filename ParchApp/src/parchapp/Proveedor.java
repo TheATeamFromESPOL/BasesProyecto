@@ -17,7 +17,19 @@ public class Proveedor {
     private String direccion;
     private int pais;
     private int ciudad;
-
+    
+    public Proveedor() {
+    }
+    
+    public Proveedor(String nombreProveedor, String telefono, String email, String direccion, int pais, int ciudad) {
+        this.nombreProveedor = nombreProveedor;
+        this.telefono = telefono;
+        this.email = email;
+        this.direccion = direccion;
+        this.pais = pais;
+        this.ciudad = ciudad;
+    }
+    
     public Proveedor(int idProveedor, String nombreProveedor, String telefono, String email, String direccion, int pais, int ciudad) {
         this.idProveedor = idProveedor;
         this.nombreProveedor = nombreProveedor;
