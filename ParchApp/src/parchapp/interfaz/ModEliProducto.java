@@ -7,6 +7,7 @@ package parchapp.interfaz;
 
 import java.awt.Color;
 import java.awt.Container;
+import javax.swing.JOptionPane;
 import parchapp.*;
 
 /**
@@ -25,6 +26,8 @@ public class ModEliProducto extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
         this.c = new Connector();
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        
     }
 
     /**
@@ -55,6 +58,7 @@ public class ModEliProducto extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,11 +123,19 @@ public class ModEliProducto extends javax.swing.JFrame {
 
         jButton3.setText("Eliminar");
         jButton3.setEnabled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Nombre:");
         jLabel4.setEnabled(false);
 
         jTextField5.setEnabled(false);
+
+        jButton4.setText("Regresar");
+        jButton4.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,25 +172,27 @@ public class ModEliProducto extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel12)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel3))
+                                .addComponent(jLabel12))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(185, 185, 185)
-                                .addComponent(jButton2)
-                                .addGap(79, 79, 79)
-                                .addComponent(jButton3)))
+                                .addContainerGap()
+                                .addComponent(jLabel3)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(275, 275, 275)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
+                .addGap(176, 176, 176))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,7 +209,7 @@ public class ModEliProducto extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -208,15 +222,17 @@ public class ModEliProducto extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(35, 35, 35))
+                    .addComponent(jButton4))
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -244,30 +260,76 @@ public class ModEliProducto extends javax.swing.JFrame {
         }else if(jRadioButton2.isSelected()){
             p = c.encontrarProductoPorNombre(jTextField2.getText());
         }
-        jTextField5.setText(p.getNombreProducto());
-        jTextField3.setText(Float.toString(p.getPrecioPublico()));
-        jTextField4.setText(Float.toString(p.getPrecioMayorista()));
-        jTextArea1.setText(p.getDescripcion());
-        jLabel1.setEnabled(true);
-        jLabel2.setEnabled(true);
-        jLabel3.setEnabled(true);
-        jLabel4.setEnabled(true);
-        jTextField5.setEnabled(true);
-        jTextField3.setEnabled(true);
-        jTextField4.setEnabled(true);
-        jTextArea1.setEnabled(true);
-        jButton2.setEnabled(true);
-        jButton3.setEnabled(true);
-        jButton1.setEnabled(false);
-        jTextField1.setEnabled(false);
-        jTextField2.setEnabled(false);
-        jRadioButton1.setEnabled(false);
-        jRadioButton2.setEnabled(false);
+        if(!p.getNombreProducto().isEmpty()){
+            jTextField5.setText(p.getNombreProducto());
+            jTextField3.setText(Float.toString(p.getPrecioPublico()));
+            jTextField4.setText(Float.toString(p.getPrecioMayorista()));
+            jTextArea1.setText(p.getDescripcion());
+            jLabel1.setEnabled(true);
+            jLabel2.setEnabled(true);
+            jLabel3.setEnabled(true);
+            jLabel4.setEnabled(true);
+            jTextField5.setEnabled(true);
+            jTextField3.setEnabled(true);
+            jTextField4.setEnabled(true);
+            jTextArea1.setEnabled(true);
+            jButton2.setEnabled(true);
+            jButton3.setEnabled(true);
+            jButton4.setEnabled(true);
+            jButton1.setEnabled(false);
+            jTextField1.setEnabled(false);
+            jTextField2.setEnabled(false);
+            jRadioButton1.setEnabled(false);
+            jRadioButton2.setEnabled(false);
+        }else{
+            JOptionPane.showMessageDialog(null,"No existe producto con esas características.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void volverAIngresar(){
+        jTextField5.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextArea1.setText("");
+        jLabel1.setEnabled(false);
+        jLabel2.setEnabled(false);
+        jLabel3.setEnabled(false);
+        jLabel4.setEnabled(false);
+        jTextField5.setEnabled(false);
+        jTextField3.setEnabled(false);
+        jTextField4.setEnabled(false);
+        jTextArea1.setEnabled(false);
+        jButton4.setEnabled(false);
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
+        jButton1.setEnabled(true);
+        jTextField1.setEnabled(true);
+        jTextField2.setEnabled(true);
+        jRadioButton1.setEnabled(true);
+        jRadioButton2.setEnabled(true);
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        if(jRadioButton1.isSelected()){
+            Producto p = new Producto(Integer.parseInt(jTextField1.getText()),jTextField5.getText(), Float.parseFloat(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), jTextArea1.getText());
+            c.modificarProductoPorId(p);
+        }else if(jRadioButton2.isSelected()){
+            Producto p = new Producto(jTextField5.getText(), Float.parseFloat(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), jTextArea1.getText());
+            c.modificarProductoPorNombre(p, jTextField2.getText());
+        }
+        volverAIngresar();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(jRadioButton1.isSelected()){
+            c.eliminarProductoPorId(Integer.parseInt(jTextField1.getText()));
+        }else if(jRadioButton2.isSelected()){
+            c.eliminarProductoPorNombre(jTextField2.getText());
+        }
+        volverAIngresar();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,6 +378,7 @@ public class ModEliProducto extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;

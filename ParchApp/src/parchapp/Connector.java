@@ -310,11 +310,24 @@ public class Connector {
         }
     }
     
-    public void eliminarProducto(String nombProd){
+    public void eliminarProductoPorNombre(String nombProd){
         String cadena = "{CALL eliminarProducto(?)}";
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
             cs.setString(1, nombProd);
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void eliminarProductoPorId(int idProd){
+        String cadena = "{CALL eliminarProductoPorId(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, idProd);
             cs.executeQuery();
             JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
             //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
@@ -330,11 +343,13 @@ public class Connector {
             CallableStatement cs = this.getConnection().prepareCall(cadena);
             cs.setString(1, nomProd);
             ResultSet rs = cs.executeQuery();
-            rs.next();
-            prod.setNombreProducto(rs.getString(1));
-            prod.setPrecioPublico(rs.getFloat(2));
-            prod.setPrecioMayorista(rs.getFloat(3));
-            prod.setDescripcion(rs.getString(4));
+            if(rs.isBeforeFirst()){
+                rs.next();
+                prod.setNombreProducto(rs.getString(1));
+                prod.setPrecioPublico(rs.getFloat(2));
+                prod.setPrecioMayorista(rs.getFloat(3));
+                prod.setDescripcion(rs.getString(4));
+            }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
@@ -348,15 +363,49 @@ public class Connector {
             CallableStatement cs = this.getConnection().prepareCall(cadena);
             cs.setInt(1, idProd);
             ResultSet rs = cs.executeQuery();
-            rs.next();
-            prod.setNombreProducto(rs.getString(1));
-            prod.setPrecioPublico(rs.getFloat(2));
-            prod.setPrecioMayorista(rs.getFloat(3));
-            prod.setDescripcion(rs.getString(4));
+            if(rs.isBeforeFirst()){
+                rs.next();
+                prod.setNombreProducto(rs.getString(1));
+                prod.setPrecioPublico(rs.getFloat(2));
+                prod.setPrecioMayorista(rs.getFloat(3));
+                prod.setDescripcion(rs.getString(4));
+            }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
         return prod;
+    }
+    
+    public void modificarProductoPorNombre(Producto p,String nomviejo){
+        String query = "{CALL modificarProductoPorNombre(?,?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,nomviejo);
+            cs.setString(2,p.getNombreProducto());
+            cs.setFloat(3, p.getPrecioPublico());
+            cs.setFloat(4, p.getPrecioMayorista());
+            cs.setString(5,p.getDescripcion());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto modificado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void modificarProductoPorId(Producto p){
+        String query = "{CALL modificarProductoPorId(?,?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setInt(1,p.getIdProducto());
+            cs.setString(2,p.getNombreProducto());
+            cs.setFloat(3, p.getPrecioPublico());
+            cs.setFloat(4, p.getPrecioMayorista());
+            cs.setString(5,p.getDescripcion());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto modificado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
 }

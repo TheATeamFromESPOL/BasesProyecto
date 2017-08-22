@@ -17,6 +17,11 @@ public class Producto {
     private String descripcion;
 
     public Producto() {
+        idProducto = 0;
+        nombreProducto = "";
+        precioPublico = 0;
+        precioMayorista = 0;
+        descripcion = "";
     }
     
     public Producto(int idProducto, String nombreProducto, float precioPublico, float precioMayorista, String descripcion) {

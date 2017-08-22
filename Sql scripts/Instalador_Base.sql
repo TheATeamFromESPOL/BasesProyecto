@@ -26,8 +26,9 @@ create table Producto (
     check (PrecioMayorista > 0)
 );
 
-insert into Producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion)
-values ('Tubo para llanta',4.30,4.02,'Tubo inflable para llanta de auto.'),
+insert into Producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion) values 
+('Desconocido',0,0,'Desconocido'),
+('Tubo para llanta',4.30,4.02,'Tubo inflable para llanta de auto.'),
 ('Parche para tubo',0.30,0.25,'Parche para tapar las fugas de aire de los tubos');
 
 create table Pais(
@@ -61,16 +62,22 @@ create table Proveedor (
     foreign key(Ciudad) references Ciudad(IdCiudad)
 );
 
-insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) values ('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1);
+insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) values 
+('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1),
+('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
 
 create table Producto_Proveedor(
 	Id int not null auto_increment,
     IdProducto int not null,
     IdProveedor int not null,
     primary key (Id),
-    foreign key(IdProducto) references Producto(IdProducto),
-    foreign key(IdProveedor) references Proveedor(IdProveedor)
+    foreign key(IdProducto) references Producto(IdProducto) on delete cascade,
+    foreign key(IdProveedor) references Proveedor(IdProveedor) on delete cascade
 );
+
+insert into Producto_Proveedor(IdProducto,IdProveedor) values 
+(1,1),
+(2,1);
 
 create table Cliente (
 	Cedula varchar(10) not null,
@@ -91,7 +98,7 @@ create table Inventario (
     Stock int not null,
     Observaciones varchar(255),
     primary key(IdInventario),
-    foreign key(IdProducto) references Producto(IdProducto)
+    foreign key(IdProducto) references Producto(IdProducto) on delete cascade
 );
 
 create table OrdenVenta (
@@ -123,7 +130,7 @@ create table DetalleCompra (
     Precio float(5,2) not null,
     Cantidad int not null,
     primary key (IdDetalleCompra),
-    foreign key (IdOrdenCompra) references OrdenCompra(IdOrdenCompra),
+    foreign key (IdOrdenCompra) references OrdenCompra(IdOrdenCompra) on delete cascade,
 	foreign key (IdProducto) references Producto(IdProducto)
 );
 
@@ -134,7 +141,7 @@ create table DetalleVenta (
     Precio float(5,2) not null,
     Cantidad int not null,
     primary key (IdDetalleVenta),
-    foreign key (IdOrdenVenta) references OrdenVenta(IdOrdenVenta),
+    foreign key (IdOrdenVenta) references OrdenVenta(IdOrdenVenta) on delete cascade,
 	foreign key (IdProducto) references Producto(IdProducto)
 );
 
@@ -384,7 +391,20 @@ begin
 end$$
 delimiter ;
 
+delimiter $$
+create procedure eliminarProductoPorId(in idProd int)
+begin
+	delete from producto where IdProducto = idProd;
+end$$
+delimiter ;
 
-
-select *
-from Producto;
+delimiter $$
+create trigger eliminarDatosRelacionadoAProducto
+before delete on producto
+for each row
+begin
+	delete from producto_proveedor where producto_proveedor.IdProducto = OLD.IdProducto;
+    delete from inventario where inventario.IdProducto = OLD.IdProducto;
+    
+end$$
+delimiter ;
