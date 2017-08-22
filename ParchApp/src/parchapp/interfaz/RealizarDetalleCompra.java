@@ -82,6 +82,11 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setSelected(true);
         jRadioButton1.setText("Id:");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,6 +206,7 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
             jComboBox1.setEnabled(true);
             jButton1.setEnabled(true);
             jTextField2.setEnabled(true);
+            jTextField1.setEnabled(false);
         }
     }//GEN-LAST:event_jRadioButton2ActionPerformed
     
@@ -228,6 +234,15 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         con.cargarProductosACombo(jTextField2.getText(), jComboBox1);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        if(jRadioButton1.isSelected()){
+            jComboBox1.setEnabled(false);
+            jButton1.setEnabled(false);
+            jTextField2.setEnabled(false);
+            jTextField1.setEnabled(true);
+        }
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     /**
      * @param args the command line arguments

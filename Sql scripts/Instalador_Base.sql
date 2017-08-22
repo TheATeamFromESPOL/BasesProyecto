@@ -37,7 +37,10 @@ create table Pais(
     primary key (IdPais)
 );
 
-insert into Pais(NombrePais) values ('Ecuador'),('Chile');
+insert into Pais(NombrePais) values 
+('Desconocido'),
+('Ecuador'),
+('Chile');
 
 create table Ciudad(
 	IdCiudad int not null auto_increment,
@@ -47,7 +50,12 @@ create table Ciudad(
     foreign key(IdPais) references Pais(IdPais)
 );
 
-insert into Ciudad(NombreCiudad,IdPais) values ('Guayaquil',1),('Quito',1),('Santiago',2),('Temuco',2);
+insert into Ciudad(NombreCiudad,IdPais) values
+('Desconocido',1), 
+('Guayaquil',2),
+('Quito',2),
+('Santiago',3),
+('Temuco',3);
 
 create table Proveedor (
 	IdProveedor int not null Auto_increment,
@@ -63,6 +71,7 @@ create table Proveedor (
 );
 
 insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) values 
+('Desconocido','000 000 000','desconocido','desconocido',1,1),
 ('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1),
 ('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
 
@@ -74,10 +83,6 @@ create table Producto_Proveedor(
     foreign key(IdProducto) references Producto(IdProducto) on delete cascade,
     foreign key(IdProveedor) references Proveedor(IdProveedor) on delete cascade
 );
-
-insert into Producto_Proveedor(IdProducto,IdProveedor) values 
-(1,1),
-(2,1);
 
 create table Cliente (
 	Cedula varchar(10) not null,
@@ -93,7 +98,7 @@ create table Cliente (
 );
 
 create table Inventario (
-	IdInventario int not null,
+	IdInventario int not null auto_increment,
     IdProducto int not null,
     Stock int not null,
     Observaciones varchar(255),
@@ -102,7 +107,7 @@ create table Inventario (
 );
 
 create table OrdenVenta (
-	IdOrdenVenta int not null,
+	IdOrdenVenta int not null auto_increment,
     Usuario varchar(20) not null,
     IdCliente varchar(255) not null,
     TotalVenta float(10,2) not null,
@@ -114,7 +119,7 @@ create table OrdenVenta (
 );
 
 create table OrdenCompra (
-	IdOrdenCompra int not null,
+	IdOrdenCompra int not null auto_increment,
     IdProveedor int not null,
     TotalCompra float(10,2) not null,
     Fecha date,
@@ -124,7 +129,7 @@ create table OrdenCompra (
 );
 
 create table DetalleCompra (
-	IdDetalleCompra int not null,
+	IdDetalleCompra int not null auto_increment,
     IdOrdenCompra int not null,
     IdProducto int not null,
     Precio float(5,2) not null,
@@ -135,7 +140,7 @@ create table DetalleCompra (
 );
 
 create table DetalleVenta (
-	IdDetalleVenta int not null,
+	IdDetalleVenta int not null auto_increment,
     IdOrdenVenta int not null,
     IdProducto int not null,
     Precio float(5,2) not null,
@@ -242,7 +247,7 @@ create procedure ListarProducto(in nombrePro varchar(255))
 begin
 	select *
     from producto
-    where NombreProducto = nombrePro;
+    where NombreProducto = nombrePro and IdProducto!=1;
 end$$
 delimiter ;
 
@@ -251,7 +256,7 @@ create procedure ListarProductoConCadena(in cadena varchar(255))
 begin
 	select NombreProducto
     from producto
-    where NombreProducto like concat('%',cadena,'%');
+    where NombreProducto like concat('%',cadena,'%') and IdProducto!=1;
 end$$
 delimiter ;
 
@@ -460,6 +465,29 @@ for each row
 begin
 	delete from producto_proveedor where producto_proveedor.IdProducto = OLD.IdProducto;
     delete from inventario where inventario.IdProducto = OLD.IdProducto;
-    
+    update detallecompra set IdProducto = 1 where IdProducto = OLD.IdProducto;
+    update detalleventa set IdProducto = 1 where IdProducto = OLD.IdProducto;
 end$$
 delimiter ;
+
+delimiter $$
+create trigger eliminarDatosRelacionadoACompra
+before delete on ordencompra
+for each row
+begin
+	delete from detallecompra where detallecompra.IdOrdenCompra = OLD.IdOrdenCompra;
+end$$
+delimiter ;
+
+delimiter $$
+create trigger eliminarDatosRelacionadosAProveedor
+before delete on proveedor
+for each row
+begin
+	delete from producto_proveedor where producto_proveedor.IdProveedor= OLD.IdProveedor;
+end$$
+delimiter ;
+
+use tiretec;
+select *
+from producto;
