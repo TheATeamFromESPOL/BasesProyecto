@@ -8,6 +8,7 @@ package parchapp.interfaz;
 import java.awt.Color;
 import java.awt.Container;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import parchapp.*;
 
 /**
@@ -21,6 +22,7 @@ public class Compra extends javax.swing.JFrame {
      */
     Connector con;
     ArrayList<DetalleCompra> detalle;
+    float total;
     
     public Compra() {
         con=new Connector();
@@ -28,8 +30,31 @@ public class Compra extends javax.swing.JFrame {
         initComponents();
         Container c=this.getContentPane();
         c.setBackground(Color.CYAN);
+        ArrayList<String> pro = con.cargarProveedores();
+        for(String s : pro){
+            jComboBox1.addItem(s);
+        }
+        total = 0;
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
 
+    public ArrayList<DetalleCompra> getDetalle() {
+        return detalle;
+    }
+
+    public void actualizarTabla(){
+        String col[] = {"Id Producto","Nombre Producto","Cantidad","Precio"};
+        DefaultTableModel modelo = new DefaultTableModel(col,0);
+        total = 0;
+        for(DetalleCompra d:detalle){
+            Object[] objs = {d.getIdProducto(),con.obtenerNombreProductoConId(d.getIdProducto()),d.getCantidad(),d.getPrecio()};
+            modelo.addRow(objs);
+            total += d.getCantidad()*d.getPrecio();
+        }
+        jTable1.setModel(modelo);
+        jTextField2.setText(Float.toString(total));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,6 +74,9 @@ public class Compra extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,22 +88,43 @@ public class Compra extends javax.swing.JFrame {
         jLabel2.setText("Filtrar:");
 
         jButton1.setText("Filtrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jTable1.setFocusable(false);
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setText("Ingresar detalle");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Total:");
+        jLabel5.setToolTipText("");
+
+        jTextField2.setEnabled(false);
+
+        jButton3.setText("Registrar compra");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,7 +151,14 @@ public class Compra extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton1)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -126,11 +182,38 @@ public class Compra extends javax.swing.JFrame {
                         .addComponent(jButton2)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        RealizarDetalleCompra dc = new RealizarDetalleCompra();
+        dc.setCompra(this);
+        dc.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ArrayList<String> p = con.cargarProveedoresFiltro(jTextField1.getText());
+        jComboBox1.removeAllItems();
+        for(String s:p){
+            jComboBox1.addItem(s);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        OrdenCompra oc = new OrdenCompra();
+        oc.setIdProveedor(con.obtenerIdProveedor((String)jComboBox1.getSelectedItem()));
+        oc.setTotalCompra(Float.parseFloat(jTextField2.getText()));
+        con.realizarCompra(oc, detalle);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,13 +262,16 @@ private void agregarAlListado(String s1,String s2){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

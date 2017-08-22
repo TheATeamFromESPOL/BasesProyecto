@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.util.ArrayList;
+import parchapp.Connector;
 import parchapp.DetalleCompra;
 
 /**
@@ -12,20 +14,42 @@ import parchapp.DetalleCompra;
  * @author Usuario
  */
 public class RealizarDetalleCompra extends javax.swing.JFrame {
-    
+    Connector con;
     DetalleCompra det;
+    Compra compra;
     /**
      * Creates new form RealizarDetalleCompra
      */
     public RealizarDetalleCompra() {
         initComponents();
         det = new DetalleCompra();
+        con = new Connector();
+        con.cargarProductosACombo(jTextField2.getText(), jComboBox1);
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
 
     public DetalleCompra getDet() {
         return det;
     }
 
+    public Compra getCompra() {
+        return compra;
+    }
+
+    public void setCompra(Compra compra) {
+        this.compra = compra;
+    }
+
+    public void insertarDetalleEnCompra(ArrayList<DetalleCompra> detalle){
+        if(jRadioButton1.isSelected()){
+            det.setIdProducto(Integer.parseInt(jTextField1.getText()));
+        }else if(jRadioButton2.isSelected()){
+            det.setIdProducto(con.obtenerIdProducto((String)jComboBox1.getSelectedItem()));
+        }
+        det.setPrecio(Float.parseFloat(jTextField3.getText()));
+        det.setCantidad(Integer.parseInt(jTextField4.getText()));
+        detalle.add(det);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,7 +80,14 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
         jLabel1.setText("Producto:");
 
         buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
         jRadioButton1.setText("Id:");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Nombre:");
@@ -74,6 +105,11 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
 
         jButton1.setText("Filtrar");
         jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Precio:");
 
@@ -157,6 +193,7 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -166,10 +203,31 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
             jTextField2.setEnabled(true);
         }
     }//GEN-LAST:event_jRadioButton2ActionPerformed
-
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        insertarDetalleEnCompra(compra.getDetalle());
+        jComboBox1.setEnabled(false);
+        jButton1.setEnabled(false);
+        jTextField2.setEnabled(false);
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        con.cargarProductosACombo(jTextField2.getText(), jComboBox1);
+        compra.actualizarTabla();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        if(jRadioButton1.isSelected()){
+            jComboBox1.setEnabled(false);
+            jButton1.setEnabled(false);
+            jTextField2.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        con.cargarProductosACombo(jTextField2.getText(), jComboBox1);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,7 +259,7 @@ public class RealizarDetalleCompra extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RealizarDetalleCompra().setVisible(true);
+                new RealizarDetalleCompra().setVisible(false);
             }
         });
     }

@@ -7,9 +7,11 @@ package parchapp;
 
 import java.sql.*;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import parchapp.interfaz.Compra;
 
 
 /**
@@ -95,6 +97,22 @@ public class Connector {
         String cadena = "{CALL ListarProveedores()}";
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                proveedores.add(rs.getString(1));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return proveedores;
+    }
+    
+    public ArrayList<String> cargarProveedoresFiltro(String s){
+        ArrayList<String> proveedores = new ArrayList();
+        String cadena = "{CALL ListarProveedoresFiltro(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, s);
             ResultSet rs = cs.executeQuery();
             while(rs.next()){
                 proveedores.add(rs.getString(1));
@@ -407,5 +425,70 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
+    
+    public void cargarProductosACombo(String s,JComboBox combo){
+        combo.removeAllItems();
+        String query = "{CALL ListarProductoConCadena(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,s);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                combo.addItem((String)rs.getString(1));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public String obtenerNombreProductoConId(int id){
+        String query = "{CALL obtenerNombreProducto(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setInt(1,id);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst()){
+                rs.next();
+                return(rs.getString(1));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return "";
+    }
+    
+    public void realizarCompra(OrdenCompra oc,ArrayList<DetalleCompra> detalle){
+        String query = "{CALL insertarOrdenCompra(?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setInt(1, oc.getIdProveedor());
+            cs.setFloat(2, oc.getTotalCompra());
+            cs.execute();
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        query = "{CALL obtenerIdUltimaCompra()}";
+        int idCompra = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            idCompra = cs.executeQuery().getInt(1);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        query = "{CALL insertarDetalleCompra(?,?,?,?)}";
+        for(DetalleCompra d : detalle){
+            try{
+                CallableStatement cs = this.getConnection().prepareCall(query);
+                cs.setInt(1,idCompra);
+                cs.setInt(2, d.getIdProducto());
+                cs.setFloat(3, d.getPrecio());
+                cs.setFloat(4, d.getCantidad());
+                cs.execute();
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+    
     
 }

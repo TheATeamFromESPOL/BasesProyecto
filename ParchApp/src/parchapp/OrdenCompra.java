@@ -26,7 +26,10 @@ public class OrdenCompra {
         this.fecha = fecha;
         this.hora = hora;
     }
-
+    
+    public OrdenCompra(){
+    }
+    
     public int getIdOrdenCompra() {
         return idOrdenCompra;
     }

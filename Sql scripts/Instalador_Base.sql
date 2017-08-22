@@ -228,11 +228,30 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure ListarProveedoresFiltro(in cadena varchar(255))
+begin
+	select NombreProveedor
+    from Proveedor
+    where NombreProveedor like concat('%',cadena,'%')
+    order by NombreProveedor;
+end$$
+delimiter ;
+
+delimiter $$
 create procedure ListarProducto(in nombrePro varchar(255))
 begin
 	select *
     from producto
     where NombreProducto = nombrePro;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure ListarProductoConCadena(in cadena varchar(255))
+begin
+	select NombreProducto
+    from producto
+    where NombreProducto like concat('%',cadena,'%');
 end$$
 delimiter ;
 
@@ -308,6 +327,15 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure obtenerNombreProducto(in id int)
+begin
+	select NombreProducto
+    from producto
+    where IdProducto = id;
+end$$
+delimiter ;
+
+delimiter $$
 create function obtenerIdProveedor(nomProv varchar(255)) returns int deterministic
 begin
 	declare encontrado int;
@@ -330,6 +358,7 @@ begin
     
 end$$
 delimiter ;
+
 
 delimiter $$
 create procedure eliminarProducto (in nombreProd varchar(255))
@@ -397,6 +426,32 @@ begin
 	delete from producto where IdProducto = idProd;
 end$$
 delimiter ;
+
+delimiter $$
+create procedure insertarOrdenCompra(in id int,in total float)
+begin
+	insert into ordencompra(IdProveedor,TotalCompra,Fecha,hora)
+    values (id,total,curdate(),curtime());
+end$$
+delimiter;
+
+delimiter $$
+create procedure obtenerIdUltimaCompra()
+begin
+	select IdOrdenCompra
+    from OrdenCompra
+    order by IdOrdenCompra desc
+    limit 1;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure insertarDetalleCompra(in idcompra int,in idProd int,in precio float(5,2),in cant int)
+begin
+	insert into detallecompra(IdOrdenCompra,IdProducto,Precio,Cantidad)
+    values (idcompra,idProd,precio,cant);
+end$$
+delimiter;
 
 delimiter $$
 create trigger eliminarDatosRelacionadoAProducto
