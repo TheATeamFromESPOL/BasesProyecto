@@ -619,26 +619,11 @@ create trigger eliminarDatosRelacionadoAVenta
 before delete on ordenventa
 for each row
 begin
-<<<<<<< HEAD
 	delete from detalleventa where detalleventa.IdOrdenVenta = OLD.IdOrdenVenta;
-=======
-	delete from producto_proveedor where producto_proveedor.IdProveedor= OLD.IdProveedor;
-    update OrdenCompra set IdProveedor = 1 where IdProveedor = OLD.IdProveedor;
->>>>>>> cf0b7d3b02b425c257e09bb0421ff89f230c31df
 end$$
 delimiter ;
 
 delimiter $$
-create trigger eliminarDatosRelacionadosACliente
-before delete on cliente
-for each row
-begin
-    update OrdenVenta set idCliente = 1 where idCliente = OLD.cedula;
-end$$
-delimiter ;
-
-delimiter $$
-<<<<<<< HEAD
 create trigger incrementarInventario
 after insert on detallecompra
 for each row
@@ -652,13 +637,15 @@ begin
 	update inventario
     set stock = NEW.Cantidad+stockAntiguo
     where IdProducto = NEW.IdProducto;
-=======
+end $$
+delimiter ;
+
+delimiter $$
 create trigger generarInventario
 after insert on producto
 for each row
 begin
 	insert into Inventario(IdProducto,Stock) values (NEW.IdProducto,0);
->>>>>>> cf0b7d3b02b425c257e09bb0421ff89f230c31df
 end$$
 delimiter ;
 
