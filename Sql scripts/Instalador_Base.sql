@@ -146,8 +146,6 @@ delimiter ;
 
 delimiter $$
 create procedure insertarCliente (in Cedula varchar(10),
-								  in Ruc varchar(15),
-                                  in Pasaporte varchar(30),
                                   in Nombres varchar(255),
                                   in Apellidos varchar(255),
                                   in Direccion varchar(255),
@@ -350,7 +348,7 @@ begin
 end$$
 delimiter ;
 
-
+/*
 delimiter $$
 create procedure obtenerIdProv_Prod(idProd int) 
 begin	
@@ -360,7 +358,7 @@ begin
     
 end$$
 delimiter ;
-
+*/
 
 delimiter $$
 create procedure eliminarProducto (in nombreProd varchar(255))
@@ -369,6 +367,7 @@ begin
 end$$
 delimiter ;
 
+/*
 delimiter $$
 create procedure eliminarProd_Prov (in idProv int,
 								   in idProd int)
@@ -376,6 +375,7 @@ begin
 	delete from producto_proveedor where IdProveedor=idProv and IdProducto=idProd;
 end$$
 delimiter ;
+*/
 
 delimiter $$
 create procedure insertarProd_Prov (in idProd int, 
@@ -575,6 +575,39 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure obtenerProveedoresDeProductoPorId(in idprod int)
+begin
+	select f.NombreProveedor
+    from producto p Join (
+		select pp.IdProducto,pv.NombreProveedor
+        from proveedor pv join producto_proveedor pp on pv.IdProveedor = pp.IdProveedor
+        where pp.IdProducto = idprod
+	) f on f.IdProducto = p.IdProducto;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure obtenerProveedoresDeProductoPorNombre(in nomProd varchar(255))
+begin
+	select f.NombreProveedor
+    from producto p Join (
+		select pp.IdProducto,pv.NombreProveedor
+        from proveedor pv join producto_proveedor pp on pv.IdProveedor = pp.IdProveedor
+	) f on f.IdProducto = p.IdProducto
+    where p.NombreProducto = nomprod;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure obtenerIdProductoProveedor(in idprod int,in idProv int)
+begin
+	select id
+    from producto_proveedor
+    where IdProducto=idprod and IdProveedor=idprov;
+end$$
+delimiter ;
+
+delimiter $$
 create trigger eliminarDatosRelacionadoAProducto
 before delete on producto
 for each row
@@ -692,3 +725,11 @@ insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) valu
 ('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
 
 insert into cliente values ('0000000000','Desconocido','Desconocido', 'Desconocido', 'Desconocido', 'MINORISTA');
+
+insert into producto_proveedor(IdProducto,IdProveedor) values 
+(2,3),
+(2,2),
+(3,2);
+
+select *
+from producto_proveedor;

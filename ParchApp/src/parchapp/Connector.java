@@ -372,19 +372,21 @@ public class Connector {
     }
     
     public void insertarProd_Prov(int idProd, int idProv){
+        if(relacionProductoProveedorExiste(idProd, idProv)) return;
         String cadena = "{CALL insertarProd_Prov(?,?)}";
         try{
             CallableStatement cs = this.getConnection().prepareCall(cadena);
             cs.setInt(1, idProd);
             cs.setInt(2, idProv);
             cs.executeQuery();
-            JOptionPane.showMessageDialog(null,"Proveedor ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"Proveedor ingresado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
             //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
     }
-        
+    
+    /*
     public ArrayList<Integer> obtenerIdProv_Prod(int idProd){
         ArrayList<Integer> idProv = new ArrayList();
         System.out.println("idProd: "+ idProd );
@@ -401,6 +403,7 @@ public class Connector {
         }
         return idProv;
     }
+    */
     
     public int obtenerIdProducto(String nomProd){
         String cadena = "{? = CALL obtenerIdProducto(?)}";
@@ -432,6 +435,7 @@ public class Connector {
         return salida;
     }
     
+    /*
     public void eliminarProd_Prov(int idProveedor, int idProducto){
         String cadena = "{CALL eliminarProd_Prov(?,?)}";
         try{
@@ -445,6 +449,7 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
+    */
     
     public void eliminarProductoPorNombre(String nombProd){
         String cadena = "{CALL eliminarProducto(?)}";
@@ -753,7 +758,7 @@ public class Connector {
             CallableStatement cs = this.getConnection().prepareCall(cadena);
             cs.setString(1, nombProv);
             cs.executeQuery();
-            JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Proveedor eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
             //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -766,7 +771,7 @@ public class Connector {
             CallableStatement cs = this.getConnection().prepareCall(cadena);
             cs.setInt(1, idProv);
             cs.executeQuery();
-            JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Proveedor eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
             //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -823,4 +828,49 @@ public class Connector {
         }
     }
     
+    public void obtenerProveedoresDeProductoPorId(int idprod,JTable tabla, DefaultTableModel modelo){
+        String query = "{CALL obtenerProveedoresDeProductoPorId(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setInt(1,idprod);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                Object obj[] = {rs.getString(1)};
+                modelo.addRow(obj);
+            }
+            tabla.setModel(modelo);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void obtenerProveedoresDeProductoPorNombre(String nomProd,JTable tabla, DefaultTableModel modelo){
+        String query = "{CALL obtenerProveedoresDeProductoPorNombre(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,nomProd);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                Object obj[] = {rs.getString(1)};
+                modelo.addRow(obj);
+            }
+            tabla.setModel(modelo);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public boolean relacionProductoProveedorExiste(int idprod,int idprov){
+        String query = "{CALL obtenerIdProductoProveedor(?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setInt(1,idprod);
+            cs.setInt(2, idprov);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst())return true;
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
 }

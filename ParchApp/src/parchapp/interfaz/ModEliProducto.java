@@ -7,7 +7,9 @@ package parchapp.interfaz;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import parchapp.*;
 
 /**
@@ -16,17 +18,21 @@ import parchapp.*;
  */
 public class ModEliProducto extends javax.swing.JFrame {
     Connector c;
+    DefaultTableModel modelo;
     /**
      * Creates new form Interfaz5
      */
     public ModEliProducto() {
         initComponents();
-        Container c=this.getContentPane();
-        c.setBackground(Color.CYAN);
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
-        this.c = new Connector();
+        c = new Connector();
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        Object col[] = {"Nombre Proveedor"};
+        modelo = new DefaultTableModel(col,0);
+        for(String s : c.cargarProveedores()){
+            jComboBox1.addItem(s);
+        }
         
     }
 
@@ -59,6 +65,11 @@ public class ModEliProducto extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton5 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,6 +153,22 @@ public class ModEliProducto extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Agregar proveedores:");
+        jLabel5.setEnabled(false);
+
+        jComboBox1.setEnabled(false);
+
+        jButton5.setText("Agregar");
+        jButton5.setEnabled(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setEnabled(false);
+        jScrollPane2.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,24 +176,6 @@ public class ModEliProducto extends javax.swing.JFrame {
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField5))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jRadioButton1)
@@ -178,23 +187,50 @@ public class ModEliProducto extends javax.swing.JFrame {
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(jLabel12)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField5))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(144, 144, 144)
+                                .addComponent(jButton2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(236, 236, 236)
+                                .addComponent(jButton1)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(275, 275, 275)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addGap(176, 176, 176))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,9 +245,9 @@ public class ModEliProducto extends javax.swing.JFrame {
                     .addComponent(jRadioButton2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -225,13 +261,23 @@ public class ModEliProducto extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton3)
                         .addComponent(jButton4)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -257,11 +303,24 @@ public class ModEliProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jRadioButton1.isSelected()){
+            if(jTextField1.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Ingrese un Id válido","Mensaje del sistema" ,JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }else if(jRadioButton2.isSelected()){
+            if(jTextField2.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Inserte un nombre válido","Mensaje del sistema" ,JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
         Producto p = new Producto();
         if(jRadioButton1.isSelected()){
             p = c.encontrarProductoPorId(Integer.parseInt(jTextField1.getText()));
+            c.obtenerProveedoresDeProductoPorId(Integer.parseInt(jTextField1.getText()), jTable1, modelo);
         }else if(jRadioButton2.isSelected()){
             p = c.encontrarProductoPorNombre(jTextField2.getText());
+            c.obtenerProveedoresDeProductoPorNombre(jTextField2.getText(), jTable1, modelo);
         }
         if(!p.getNombreProducto().isEmpty()){
             jTextField5.setText(p.getNombreProducto());
@@ -284,6 +343,9 @@ public class ModEliProducto extends javax.swing.JFrame {
             jTextField2.setEnabled(false);
             jRadioButton1.setEnabled(false);
             jRadioButton2.setEnabled(false);
+            jLabel5.setEnabled(true);
+            jComboBox1.setEnabled(true);
+            jButton5.setEnabled(true);
         }else{
             JOptionPane.showMessageDialog(null,"No existe producto con esas características.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
         }
@@ -313,15 +375,46 @@ public class ModEliProducto extends javax.swing.JFrame {
         jRadioButton1.setEnabled(true);
         jRadioButton2.setEnabled(true);
         jRadioButton1.setSelected(true);
+        jLabel5.setEnabled(false);
+        jComboBox1.setEnabled(false);
+        jButton5.setEnabled(false);
+        for(int i=0;i<modelo.getRowCount();i++){
+            modelo.removeRow(i);
+        }
+        jTable1.setModel(modelo);
     }
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(jRadioButton1.isSelected()){
-            Producto p = new Producto(Integer.parseInt(jTextField1.getText()),jTextField5.getText(), Float.parseFloat(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), jTextArea1.getText());
-            c.modificarProductoPorId(p);
+            if(jTextField1.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Ingrese un Id válido","Mensaje del sistema" ,JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            try{
+                Producto p = new Producto(Integer.parseInt(jTextField1.getText()),jTextField5.getText(), Float.parseFloat(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), jTextArea1.getText());
+                c.modificarProductoPorId(p);
+                int i;
+                for(i=0;i<modelo.getRowCount();i++){
+                    int idprov = c.obtenerIdProveedor((String)modelo.getValueAt(i,0));
+                    c.insertarProd_Prov(Integer.parseInt(jTextField1.getText()), idprov);
+                }
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null,"Ingrese un Id válido","Mensaje del sistema" ,JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }else if(jRadioButton2.isSelected()){
+            if(jTextField2.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Ingrese un nombre válido","Mensaje del sistema" ,JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             Producto p = new Producto(jTextField5.getText(), Float.parseFloat(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), jTextArea1.getText());
             c.modificarProductoPorNombre(p, jTextField2.getText());
+            int idprod = c.obtenerIdProducto(jTextField2.getText());
+            int i;
+            for(i=0;i<modelo.getRowCount();i++){
+                int idprov = c.obtenerIdProveedor((String)modelo.getValueAt(i,0));
+                c.insertarProd_Prov(idprod, idprov);
+            }
         }
         volverAIngresar();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -338,6 +431,30 @@ public class ModEliProducto extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         volverAIngresar();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if(jRadioButton1.isSelected()){
+            int idprod = Integer.parseInt(jTextField1.getText());
+            int idprov = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
+            if(!c.relacionProductoProveedorExiste(idprod, idprov)){
+                Object obj[] = {(String)jComboBox1.getSelectedItem()};
+                modelo.addRow(obj);
+               jTable1.setModel(modelo);
+            }else{
+                JOptionPane.showMessageDialog(null, "Ese proveedor ya está asignado a este producto.", "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+            }
+        }else if(jRadioButton2.isSelected()){
+            int idprod = c.obtenerIdProducto(jTextField2.getText());
+            int idprov = c.obtenerIdProveedor((String)jComboBox1.getSelectedItem());
+            if(!c.relacionProductoProveedorExiste(idprod, idprov)){
+                Object obj[] = {(String)jComboBox1.getSelectedItem()};
+                modelo.addRow(obj);
+                jTable1.setModel(modelo);
+            }else{
+                JOptionPane.showMessageDialog(null, "Ese proveedor ya está asignado a este producto.", "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -366,36 +483,6 @@ public class ModEliProducto extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -411,15 +498,20 @@ public class ModEliProducto extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
