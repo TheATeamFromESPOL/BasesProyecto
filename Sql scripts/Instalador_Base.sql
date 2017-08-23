@@ -233,6 +233,15 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure ProductosConCadena(in cadena varchar(255))
+begin
+	select *
+    from producto
+    where NombreProducto like concat('%',cadena,'%') ;
+end$$
+delimiter ;
+
+delimiter $$
 create procedure CargarPaises()
 begin
 	select NombrePais
@@ -431,6 +440,90 @@ end$$
 delimiter;
 
 delimiter $$
+create procedure nombrePaisCiudad(in city int, in country int)
+begin
+	select pa.NombrePais, c.NombreCiudad
+    from ciudad c join pais pa on c.IdPais=pa.IdPais
+    where c.IdCiudad = city and pa.IdPais=country;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure eliminarProveedorPorNombre (in nombreProv varchar(255))
+begin
+	delete from proveedor where NombreProveedor = nombreProv ;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure eliminarProveedorPorId(in idProv int)
+begin
+	delete from proveedor where IdProveedor = idProv;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure buscarProveedorPorId(in idprov int)
+begin
+	select NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad
+    from proveedor
+    where IdProveedor = idprov;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure modificarCliente(in ced int,in nomcli varchar(50),in apcli varchar(50), in dir varchar(255),in emai varchar(255),in tipo varchar(255))
+begin
+	update cliente
+    set Nombres = nomcli,Apellidos = apcli, Direccion = dir, Email = emai, TipoCliente=tipo
+    where Cedula = ced;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure buscarCliente(in cedClien varchar(255))
+begin
+	select Nombres,Apellidos,Direccion,Email,TipoCliente
+    from cliente
+    where Cedula = cedClien;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure eliminarCliente (in cedCli varchar(255))
+begin
+	delete from cliente where Cedula = cedCli ;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure buscarProveedorPorNombre(in nomprov varchar(255))
+begin
+	select NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad
+    from proveedor
+    where NombreProveedor = nomprov;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure modificarProveedorPorId(in idprov int,in nomprov varchar(50),in telef varchar(50), in emai varchar(50),in dir varchar(255),in pai int, in ciu int)
+begin
+	update proveedor
+    set NombreProveedor = nomprov,Telefono = telef, Email = emai, Direccion = dir, Pais = pai, Ciudad =ciu 
+    where IdProveedor = idprov;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure modificarProveedorPorNombre(in nomviejo varchar(50),in nomprov varchar(50),in telef varchar(50), in emai varchar(50),in dir varchar(255),in pai int, in ciu int)
+begin
+	update proveedor
+    set NombreProveedor = nomprov,Telefono = telef, Email = emai, Direccion = dir, Pais = pai, Ciudad =ciu 
+    where NombreProveedor = nomviejo;
+end$$
+delimiter ;
+
+delimiter $$
 create trigger eliminarDatosRelacionadoAProducto
 before delete on producto
 for each row
@@ -466,6 +559,15 @@ after insert on producto
 for each row
 begin
 	insert into Inventario(IdProducto,Stock) values (NEW.IdProducto,0);
+end$$
+delimiter ;
+
+delimiter $$
+create trigger eliminarDatosRelacionadoAProveedor
+before delete on proveedor
+for each row
+begin
+	delete from producto_proveedor where producto_proveedor.IdProveedor = OLD.IdProveedor;
 end$$
 delimiter ;
 
