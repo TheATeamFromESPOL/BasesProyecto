@@ -141,21 +141,11 @@ public class VisualizarProductos extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         limpiar();
-        if(jCheckBox1.isSelected()){
-            String nombreProd = jTextField1.getText();
-            int noProd = c.ProductosConCadena(nombreProd,dfm);
-            if(noProd==0){
-            JOptionPane.showMessageDialog(null, "Este producto no existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
-            }
-            else{
-//                Producto p = c.encontrarProductoPorNombre(nombreProd);
-//                Object[] f = new Object[4];
-//                f[0] = p.getNombreProducto();
-//                f[1] = p.getPrecioPublico();
-//                f[2] = p.getPrecioMayorista();
-//                f[3] = p.getDescripcion();
-//                dfm.addRow(f);
-            }
+        String nombreProd = jTextField1.getText();
+        int noProd = c.ProductosConCadena(nombreProd,dfm);
+        if(noProd==0){
+        JOptionPane.showMessageDialog(null, "Este producto no existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            
         }           
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -207,6 +197,16 @@ public class VisualizarProductos extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VisualizarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

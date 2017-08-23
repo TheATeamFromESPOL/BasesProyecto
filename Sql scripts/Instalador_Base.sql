@@ -146,14 +146,16 @@ delimiter ;
 
 delimiter $$
 create procedure insertarCliente (in Cedula varchar(10),
+								  in Ruc varchar(15),
+                                  in Pasaporte varchar(30),
                                   in Nombres varchar(255),
                                   in Apellidos varchar(255),
                                   in Direccion varchar(255),
                                   in Email varchar(255),
                                   in TipoCliente varchar(10))
 begin
-	insert into Cliente(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente)
-    values(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente);
+	insert into Cliente(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente)
+    values(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente);
 end$$
 delimiter ;
 
@@ -169,7 +171,7 @@ delimiter $$
 create procedure visualizarClientes()
 begin
 	select *
-    from clientes;
+    from cliente;
 end$$
 delimiter ;
 
@@ -234,6 +236,24 @@ begin
 	select *
     from producto
     where NombreProducto like concat('%',cadena,'%') ;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure ProveedorConCadena(in cadena varchar(255))
+begin
+	select *
+    from proveedor
+    where NombreProveedor like concat('%',cadena,'%') ;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure ClienteConCadena(in cadena varchar(255))
+begin
+	select *
+    from cliente
+    where Cedula like concat('%',cadena,'%') ;
 end$$
 delimiter ;
 
@@ -599,20 +619,26 @@ create trigger eliminarDatosRelacionadoAVenta
 before delete on ordenventa
 for each row
 begin
+<<<<<<< HEAD
 	delete from detalleventa where detalleventa.IdOrdenVenta = OLD.IdOrdenVenta;
+=======
+	delete from producto_proveedor where producto_proveedor.IdProveedor= OLD.IdProveedor;
+    update OrdenCompra set IdProveedor = 1 where IdProveedor = OLD.IdProveedor;
+>>>>>>> cf0b7d3b02b425c257e09bb0421ff89f230c31df
 end$$
 delimiter ;
 
 delimiter $$
-create trigger generarInventario
-after insert on producto
+create trigger eliminarDatosRelacionadosACliente
+before delete on cliente
 for each row
 begin
-	insert into Inventario(IdProducto,Stock) values (NEW.IdProducto,0);
+    update OrdenVenta set idCliente = 1 where idCliente = OLD.cedula;
 end$$
 delimiter ;
 
 delimiter $$
+<<<<<<< HEAD
 create trigger incrementarInventario
 after insert on detallecompra
 for each row
@@ -626,6 +652,13 @@ begin
 	update inventario
     set stock = NEW.Cantidad+stockAntiguo
     where IdProducto = NEW.IdProducto;
+=======
+create trigger generarInventario
+after insert on producto
+for each row
+begin
+	insert into Inventario(IdProducto,Stock) values (NEW.IdProducto,0);
+>>>>>>> cf0b7d3b02b425c257e09bb0421ff89f230c31df
 end$$
 delimiter ;
 

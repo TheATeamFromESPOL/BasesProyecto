@@ -166,8 +166,7 @@ public class Connector {
         }
         return datos;    
     }
-    
-    
+        
     public void cargarProducto(JTable j1,DefaultTableModel dfm){
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
         String cadena = "{CALL visualizarProductos()}";
@@ -189,7 +188,6 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
-    
     public int ProductosConCadena(String s,DefaultTableModel dfm){
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
         String query = "{CALL ProductosConCadena(?)}";
@@ -213,8 +211,58 @@ public class Connector {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return contador;
-                
+        return contador;         
+    }
+    
+    public int ProveedorConCadena(String s,DefaultTableModel dfm){
+        ArrayList<Object[]> datos = new ArrayList<Object[]>();
+        String query = "{CALL ProveedorConCadena(?)}";
+        int contador = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,s);
+            ResultSet rs = cs.executeQuery();
+            ResultSetMetaData rsm = rs.getMetaData();
+            while(rs.next()){
+                contador++;
+                Object[] filas = new Object[rsm.getColumnCount()-1];
+                for(int i = 0;i<rsm.getColumnCount()-1;i++){
+                    filas[i]= rs.getObject(i+2);
+                }
+                datos.add(filas);
+            }
+            for(int i=0;i<datos.size();i++){
+                 dfm.addRow(datos.get(i));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return contador;         
+    }
+    public int ClienteConCadena(String s,DefaultTableModel dfm){
+        ArrayList<Object[]> datos = new ArrayList<Object[]>();
+        String query = "{CALL ClienteConCadena(?)}";
+        int contador = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,s);
+            ResultSet rs = cs.executeQuery();
+            ResultSetMetaData rsm = rs.getMetaData();
+            while(rs.next()){
+                contador++;
+                Object[] filas = new Object[rsm.getColumnCount()];
+                for(int i = 0;i<rsm.getColumnCount();i++){
+                    filas[i]= rs.getObject(i+1);
+                }
+                datos.add(filas);
+            }
+            for(int i=0;i<datos.size();i++){
+                 dfm.addRow(datos.get(i));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return contador;         
     }
     
     public void cargarClientes(JTable j1,DefaultTableModel dfm){
@@ -225,15 +273,9 @@ public class Connector {
             ResultSet rs = cs.executeQuery();
             ResultSetMetaData rsm = rs.getMetaData();
             while(rs.next()){
-                Object[] filas = new Object[rsm.getColumnCount()-2];
-                
-                for(int i = 0;i<rsm.getColumnCount()-2;i++){
-                    if(i!=0){
-                        filas[i]= rs.getObject(i+3);
-                    }
-                    else{
-                        filas[i]= rs.getObject(i+1);
-                    }
+                Object[] filas = new Object[rsm.getColumnCount()];                
+                for(int i = 0;i<rsm.getColumnCount();i++){
+                    filas[i]= rs.getObject(i+1);                    
                 }
                 datos.add(filas);
             }
