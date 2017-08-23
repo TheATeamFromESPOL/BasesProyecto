@@ -23,9 +23,11 @@ public class ModEliCliente extends javax.swing.JFrame {
         initComponents();
         Container c=this.getContentPane();
         c.setBackground(Color.CYAN);
-//        buttonGroup1.add(jRadioButton1);
-//        buttonGroup1.add(jRadioButton2);
         this.c = new Connector();
+        jRadioButton3.setSelected(false);
+        jRadioButton4.setSelected(false);
+        jRadioButton3.setEnabled(false);
+        jRadioButton4.setEnabled(false);
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         
     }
@@ -90,6 +92,11 @@ public class ModEliCliente extends javax.swing.JFrame {
 
         jButton4.setText("Regresar");
         jButton4.setEnabled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Email:");
 
@@ -97,8 +104,18 @@ public class ModEliCliente extends javax.swing.JFrame {
 
         jRadioButton3.setSelected(true);
         jRadioButton3.setText("Minorista");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
 
         jRadioButton4.setText("Mayorista");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
 
         jTextField5.setEnabled(false);
 
@@ -214,11 +231,21 @@ public class ModEliCliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Cliente cli = new Cliente();
         cli = c.encontrarCliente(jTextField3.getText());
-        if(!cli.getCedula().isEmpty()){
+        
+        if(cli!=null){
+            
             jTextField8.setText(cli.getNombres());
             jTextField7.setText(cli.getApellidos());
             jTextField9.setText(cli.getDireccion());
             jTextField5.setText(cli.getEmail());
+            jRadioButton4.setEnabled(true);
+            jRadioButton3.setEnabled(true);
+            if(cli.getTipoCliente().equals("MAYORISTA")){
+                jRadioButton4.setSelected(true);
+            }
+            else{
+                jRadioButton3.setSelected(true);
+            }
             jLabel10.setEnabled(true);
             jLabel6.setEnabled(true);
             jLabel7.setEnabled(true);
@@ -234,7 +261,7 @@ public class ModEliCliente extends javax.swing.JFrame {
             jButton1.setEnabled(false);
             jTextField3.setEnabled(false);
         }else{
-            JOptionPane.showMessageDialog(null,"No existe producto con esas características.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"No existe cliente con esta cedula.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -244,6 +271,10 @@ public class ModEliCliente extends javax.swing.JFrame {
         jTextField8.setText("");
         jTextField9.setText("");
         jTextField3.setText("");
+        jRadioButton3.setSelected(false);
+        jRadioButton4.setSelected(false);
+        jRadioButton3.setEnabled(false);
+        jRadioButton4.setEnabled(false);
         jLabel10.setEnabled(false);
         jLabel6.setEnabled(false);
         jLabel7.setEnabled(false);
@@ -275,6 +306,23 @@ public class ModEliCliente extends javax.swing.JFrame {
         volverAIngresar();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        if(jRadioButton3.isSelected()){
+            jRadioButton4.setSelected(false);
+        }
+        
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        if(jRadioButton4.isSelected()){
+            jRadioButton3.setSelected(false);
+        }
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        volverAIngresar();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -300,6 +348,38 @@ public class ModEliCliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ModEliCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
