@@ -134,17 +134,41 @@ public class Connector {
             while(rs.next()){
                 Object[] filas = new Object[rsm.getColumnCount()-1];
                 for(int i = 0;i<rsm.getColumnCount()-1;i++){
-                    filas[i]= rs.getObject(i+2);
+                    filas[i]= rs.getObject(i+2);                                        
                 }
                 datos.add(filas);
             }
             for(int i=0;i<datos.size();i++){
+                ArrayList<String> paisCiudad = nombrePaisCiudad((int)datos.get(i)[4], (int)datos.get(i)[5]);
+                String query = "{CALL nombrePaisCiudad(?,?)}";
+                datos.get(i)[4]=paisCiudad.get(0);                      
+                datos.get(i)[5]=paisCiudad.get(1);
                 dfm.addRow(datos.get(i));
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
     }
+    
+    public ArrayList<String> nombrePaisCiudad(int pais,int ciudad){
+        ArrayList<String> datos = new ArrayList<>();
+        String query = "{CALL nombrePaisCiudad(?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setInt(1,pais);
+            cs.setInt(2,ciudad);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst()){
+                rs.next();
+                datos.add(rs.getString(1));
+                datos.add(rs.getString(2));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return datos;    
+    }
+    
     
     public void cargarProducto(JTable j1,DefaultTableModel dfm){
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
@@ -551,7 +575,7 @@ public class Connector {
             ResultSet rs = cs.executeQuery(); 
             if(rs.isBeforeFirst()){ 
                 rs.next();
-                System.out.println(rs.getString(1));                
+                cli.setCedula(cedCliente);
                 cli.setNombres(rs.getString(1));
                 cli.setApellidos(rs.getString(2));
                 cli.setDireccion(rs.getString(3));
@@ -613,6 +637,9 @@ public class Connector {
                 prov.setPais(rs.getInt(5));
                 prov.setCiudad(rs.getInt(6));
             }
+            else{
+                return null;
+            }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
@@ -634,6 +661,9 @@ public class Connector {
                 prov.setDireccion(rs.getString(4));                
                 prov.setPais(rs.getInt(5));
                 prov.setCiudad(rs.getInt(6));
+            }
+            else{
+                return null;
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -672,6 +702,31 @@ public class Connector {
             cs.setInt(7,p.getCiudad());
             cs.executeQuery();
             JOptionPane.showMessageDialog(null,"Producto modificado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    public void eliminarProveedorPorNombre(String nombProv){
+        String cadena = "{CALL eliminarProveedorPorNombre(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, nombProv);
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void eliminarProveedorPorId(int idProv){
+        String cadena = "{CALL eliminarProveedorPorId(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, idProv);
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }

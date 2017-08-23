@@ -28,7 +28,7 @@ public class VerProveedor extends javax.swing.JFrame {
         ca.setBackground(Color.CYAN);
         dfm = new DefaultTableModel();
         jTable1.setModel(dfm);
-        dfm.setColumnIdentifiers(new Object[]{"id","cedula","Ruc","Pasaporte","nombre","apellido","direccion","email","tipo"});
+        dfm.setColumnIdentifiers(new Object[]{"nombre","telefono","Email","direccion","pais","ciudad"});
     
     }
 
@@ -136,17 +136,25 @@ public class VerProveedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        c.cargarClientes(jTable1,dfm);
+        limpiar();
+        c.cargarProveedores(jTable1,dfm);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
-
+    
+    public void limpiar(){
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            dfm.removeRow(i);
+            i-=1;
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -172,6 +180,38 @@ public class VerProveedor extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VerProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
