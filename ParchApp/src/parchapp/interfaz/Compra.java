@@ -123,7 +123,7 @@ public class Compra extends javax.swing.JFrame {
         jLabel5.setText("Total:");
         jLabel5.setToolTipText("");
 
-        jTextField2.setEnabled(false);
+        jTextField2.setEditable(false);
 
         jButton3.setText("Registrar compra");
         jButton3.addActionListener(new java.awt.event.ActionListener() {

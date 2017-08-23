@@ -61,8 +61,6 @@ create table Producto_Proveedor(
 
 create table Cliente (
 	Cedula varchar(10) not null,
-    Ruc varchar(15),
-    Pasaporte varchar(30),
     Nombres varchar(255) not null,
     Apellidos varchar(255) not null,
     Direccion varchar(255),
@@ -512,6 +510,8 @@ insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) valu
 ('Desconocido','000 000 000','desconocido','desconocido',1,1),
 ('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1),
 ('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
+
+insert into cliente values ('0000000000','Desconocido','Desconocido', 'Desconocido', 'Desconocido', 'MINORISTA');
 
 select *
 from inventario;

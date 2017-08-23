@@ -96,6 +96,11 @@ public class Sesion extends javax.swing.JFrame {
         });
 
         jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
         jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordField1KeyPressed(evt);
@@ -200,6 +205,10 @@ public class Sesion extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jPasswordField1KeyPressed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
     public void alerta(){
         JOptionPane.showMessageDialog(null, "El usuario o la contraseña están incorrectos","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
     }
