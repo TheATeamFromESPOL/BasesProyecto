@@ -148,14 +148,16 @@ delimiter ;
 
 delimiter $$
 create procedure insertarCliente (in Cedula varchar(10),
+								  in Ruc varchar(15),
+                                  in Pasaporte varchar(30),
                                   in Nombres varchar(255),
                                   in Apellidos varchar(255),
                                   in Direccion varchar(255),
                                   in Email varchar(255),
                                   in TipoCliente varchar(10))
 begin
-	insert into Cliente(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente)
-    values(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente);
+	insert into Cliente(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente)
+    values(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente);
 end$$
 delimiter ;
 
@@ -171,7 +173,7 @@ delimiter $$
 create procedure visualizarClientes()
 begin
 	select *
-    from clientes;
+    from cliente;
 end$$
 delimiter ;
 
@@ -236,6 +238,24 @@ begin
 	select *
     from producto
     where NombreProducto like concat('%',cadena,'%') ;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure ProveedorConCadena(in cadena varchar(255))
+begin
+	select *
+    from proveedor
+    where NombreProveedor like concat('%',cadena,'%') ;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure ClienteConCadena(in cadena varchar(255))
+begin
+	select *
+    from cliente
+    where Cedula like concat('%',cadena,'%') ;
 end$$
 delimiter ;
 
@@ -548,6 +568,16 @@ before delete on proveedor
 for each row
 begin
 	delete from producto_proveedor where producto_proveedor.IdProveedor= OLD.IdProveedor;
+    update OrdenCompra set IdProveedor = 1 where IdProveedor = OLD.IdProveedor;
+end$$
+delimiter ;
+
+delimiter $$
+create trigger eliminarDatosRelacionadosACliente
+before delete on cliente
+for each row
+begin
+    update OrdenVenta set idCliente = 1 where idCliente = OLD.cedula;
 end$$
 delimiter ;
 
@@ -557,15 +587,6 @@ after insert on producto
 for each row
 begin
 	insert into Inventario(IdProducto,Stock) values (NEW.IdProducto,0);
-end$$
-delimiter ;
-
-delimiter $$
-create trigger eliminarDatosRelacionadoAProveedor
-before delete on proveedor
-for each row
-begin
-	delete from producto_proveedor where producto_proveedor.IdProveedor = OLD.IdProveedor;
 end$$
 delimiter ;
 
@@ -612,6 +633,3 @@ insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) valu
 ('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
 
 insert into cliente values ('0000000000','Desconocido','Desconocido', 'Desconocido', 'Desconocido', 'MINORISTA');
-
-select *
-from inventario;
