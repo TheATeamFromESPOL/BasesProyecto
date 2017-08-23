@@ -24,7 +24,7 @@ public class Connector {
     //Cambiar la parte '//127.0.0.1:3306/' por la ruta donde esté creada su instancia de mysql
     static final String url = "jdbc:mysql://127.0.0.1:3306/tiretec";
     static final String user = "root";
-    static final String pswd = "1234";
+    static final String pswd = "675744";
 
     public Connector() {
     }
@@ -36,6 +36,8 @@ public class Connector {
         } catch (Exception ex) {
             System.out.println("error occured " + ex.toString());
             System.out.println("No se generó la conexion. ");
+            JOptionPane.showMessageDialog(null, "No se generó la conexion con la base de datos ","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
         return conn;
     }
@@ -122,6 +124,27 @@ public class Connector {
         }
         return proveedores;
     }
+    public void cargarProveedores(JTable j1,DefaultTableModel dfm){
+        ArrayList<Object[]> datos = new ArrayList<Object[]>();
+        String cadena = "{CALL visualizarProveedores()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            ResultSet rs = cs.executeQuery();
+            ResultSetMetaData rsm = rs.getMetaData();
+            while(rs.next()){
+                Object[] filas = new Object[rsm.getColumnCount()-1];
+                for(int i = 0;i<rsm.getColumnCount()-1;i++){
+                    filas[i]= rs.getObject(i+2);
+                }
+                datos.add(filas);
+            }
+            for(int i=0;i<datos.size();i++){
+                dfm.addRow(datos.get(i));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
     
     public void cargarProducto(JTable j1,DefaultTableModel dfm){
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
@@ -131,20 +154,45 @@ public class Connector {
             ResultSet rs = cs.executeQuery();
             ResultSetMetaData rsm = rs.getMetaData();
             while(rs.next()){
-                Object[] filas = new Object[rsm.getColumnCount()];
-                for(int i = 0;i<rsm.getColumnCount();i++){
-                    filas[i]= rs.getObject(i+1);
+                Object[] filas = new Object[rsm.getColumnCount()-1];
+                for(int i = 0;i<rsm.getColumnCount()-1;i++){
+                    filas[i]= rs.getObject(i+2);
                 }
                 datos.add(filas);
             }
             for(int i=0;i<datos.size();i++){
                  dfm.addRow(datos.get(i));
             }
-            System.out.println("Aqui sigue9");
         }catch(SQLException ex){
-            System.out.println("falla");
             System.out.println(ex.getMessage());
         }
+    }
+    
+    public int ProductosConCadena(String s,DefaultTableModel dfm){
+        ArrayList<Object[]> datos = new ArrayList<Object[]>();
+        String query = "{CALL ProductosConCadena(?)}";
+        int contador = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,s);
+            ResultSet rs = cs.executeQuery();
+            ResultSetMetaData rsm = rs.getMetaData();
+            while(rs.next()){
+                contador++;
+                Object[] filas = new Object[rsm.getColumnCount()-1];
+                for(int i = 0;i<rsm.getColumnCount()-1;i++){
+                    filas[i]= rs.getObject(i+2);
+                }
+                datos.add(filas);
+            }
+            for(int i=0;i<datos.size();i++){
+                 dfm.addRow(datos.get(i));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return contador;
+                
     }
     
     public void cargarClientes(JTable j1,DefaultTableModel dfm){
@@ -155,9 +203,15 @@ public class Connector {
             ResultSet rs = cs.executeQuery();
             ResultSetMetaData rsm = rs.getMetaData();
             while(rs.next()){
-                Object[] filas = new Object[rsm.getColumnCount()];
-                for(int i = 0;i<rsm.getColumnCount();i++){
-                    filas[i]= rs.getObject(i+1);
+                Object[] filas = new Object[rsm.getColumnCount()-2];
+                
+                for(int i = 0;i<rsm.getColumnCount()-2;i++){
+                    if(i!=0){
+                        filas[i]= rs.getObject(i+3);
+                    }
+                    else{
+                        filas[i]= rs.getObject(i+1);
+                    }
                 }
                 datos.add(filas);
             }
@@ -284,7 +338,6 @@ public class Connector {
     }
     
     public int obtenerIdProducto(String nomProd){
-        System.out.println("nomProd: "+nomProd );
         String cadena = "{? = CALL obtenerIdProducto(?)}";
         int salida = 0;
         try{
@@ -489,6 +542,139 @@ public class Connector {
             }
         }
     }
+     public Cliente encontrarCliente(String cedCliente){
+        String cadena = "{CALL buscarCliente(?)}";
+        Cliente cli = new Cliente();
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, cedCliente);
+            ResultSet rs = cs.executeQuery(); 
+            if(rs.isBeforeFirst()){ 
+                rs.next();
+                System.out.println(rs.getString(1));                
+                cli.setNombres(rs.getString(1));
+                cli.setApellidos(rs.getString(2));
+                cli.setDireccion(rs.getString(3));
+                cli.setEmail(rs.getString(4));
+                cli.setTipoCliente(rs.getString(5));
+            }
+            else{
+                return null;
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return cli;
+    }
     
+    public void modificarCliente(Cliente cli){
+        String query = "{CALL modificarCliente(?,?,?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,cli.getCedula());
+            cs.setString(2,cli.getNombres());
+            cs.setString(3,cli.getApellidos());
+            cs.setString(4, cli.getDireccion());
+            cs.setString(5, cli.getEmail());
+            cs.setString(6,cli.getTipoCliente());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto modificado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void eliminarCliente(String cedCli){
+        String cadena = "{CALL eliminarCliente(?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, cedCli);
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto eliminado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public Proveedor encontrarProveedorPorNombre(String nomProv){
+        String cadena = "{CALL buscarProveedorPorNombre(?)}";
+        Proveedor prov = new Proveedor();
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setString(1, nomProv);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst()){
+                rs.next();
+                prov.setNombreProveedor(rs.getString(1));
+                prov.setTelefono(rs.getString(2));
+                prov.setEmail(rs.getString(3));
+                prov.setDireccion(rs.getString(4));                
+                prov.setPais(rs.getInt(5));
+                prov.setCiudad(rs.getInt(6));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return prov;
+    }
+    
+    public Proveedor encontrarProveedorPorId(int idProd){
+        String cadena = "{CALL buscarProveedorPorId(?)}";
+        Proveedor prov = new Proveedor();
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, idProd);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst()){
+                rs.next();
+                prov.setNombreProveedor(rs.getString(1));
+                prov.setTelefono(rs.getString(2));
+                prov.setEmail(rs.getString(3));
+                prov.setDireccion(rs.getString(4));                
+                prov.setPais(rs.getInt(5));
+                prov.setCiudad(rs.getInt(6));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return prov;
+    }
+    
+    public void modificarProveedorPorNombre(Proveedor p,String nomviejo){
+        String query = "{CALL modificarProveedorPorNombre(?,?,?,?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1,nomviejo);
+            cs.setString(2,p.getNombreProveedor());
+            cs.setString(3,p.getTelefono());
+            cs.setString(4, p.getEmail());
+            cs.setString(5, p.getDireccion());
+            cs.setInt(6,p.getPais());
+            cs.setInt(7,p.getCiudad());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto modificado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void modificarProveedorPorId(Proveedor p){
+        String query = "{CALL modificarProveedorPorId(?,?,?,?,?,?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setInt(1,p.getIdProveedor());
+            cs.setString(2,p.getNombreProveedor());
+            cs.setString(3,p.getTelefono());
+            cs.setString(4, p.getEmail());
+            cs.setString(5, p.getDireccion());
+            cs.setInt(6,p.getPais());
+            cs.setInt(7,p.getCiudad());
+            cs.executeQuery();
+            JOptionPane.showMessageDialog(null,"Producto modificado correctamente.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
     
 }

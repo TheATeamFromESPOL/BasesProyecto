@@ -18,11 +18,23 @@ public class Cliente {
     private String direccion;
     private String email;
     private String tipoCliente;
-
+    
+    public Cliente() {
+    }
+    
     public Cliente(String cedula, String ruc, String pasaporte, String nombres, String apellidos, String direccion, String email, String tipoCliente) {
         this.cedula = cedula;
         this.ruc = ruc;
         this.pasaporte = pasaporte;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.email = email;
+        this.tipoCliente = tipoCliente;
+    }
+    
+    public Cliente(String cedula, String nombres, String apellidos, String direccion, String email, String tipoCliente) {
+        this.cedula = cedula;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.direccion = direccion;

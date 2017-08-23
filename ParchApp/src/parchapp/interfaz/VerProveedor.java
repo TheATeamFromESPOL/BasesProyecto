@@ -7,7 +7,6 @@ package parchapp.interfaz;
 
 import java.awt.Color;
 import java.awt.Container;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import parchapp.*;
 
@@ -15,24 +14,21 @@ import parchapp.*;
  *
  * @author User
  */
-public class VerCliente extends javax.swing.JFrame {
+public class VerProveedor extends javax.swing.JFrame {
     Connector c;
     DefaultTableModel dfm;
     /**
      * Creates new form Interfaz3
      */
-    public VerCliente() {
+    public VerProveedor() {
         c = new Connector();
         initComponents();
-        jTextField1.setEnabled(false);
-        jButton1.setEnabled(false);
-        jButton2.setEnabled(true);
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         Container ca=this.getContentPane();
         ca.setBackground(Color.CYAN);
         dfm = new DefaultTableModel();
         jTable1.setModel(dfm);
-        dfm.setColumnIdentifiers(new Object[]{"cedula","nombre","apellido","direccion","email","tipo"});
+        dfm.setColumnIdentifiers(new Object[]{"id","cedula","Ruc","Pasaporte","nombre","apellido","direccion","email","tipo"});
     
     }
 
@@ -50,8 +46,8 @@ public class VerCliente extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel12 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,56 +78,56 @@ public class VerCliente extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel12.setText("Visualización de clientes");
-
-        jCheckBox1.setText("Cedula del Cliente");
+        jCheckBox1.setText("Nombre del Proveedor");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel12.setText("Visualización de Proveedores");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(336, 336, 336)
-                                        .addComponent(jButton2)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
                         .addComponent(jButton1)
-                        .addGap(23, 23, 23))))
+                        .addGap(36, 36, 36))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(335, 335, 335)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addGap(5, 5, 5))
         );
@@ -140,50 +136,17 @@ public class VerCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        limpiar();
-        if(jCheckBox1.isSelected()){
-            String cedula = jTextField1.getText();
-            Cliente cli = c.encontrarCliente(cedula);
-            if(cli ==null){
-                JOptionPane.showMessageDialog(null, "Este cliente no existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
-            }
-            else{
-                Object[] f = new Object[6];
-                f[0] = cedula;
-                f[1] = cli.getNombres();
-                f[2] = cli.getApellidos();
-                f[3] = cli.getDireccion();
-                f[4] = cli.getEmail();
-                f[5] = cli.getTipoCliente(); 
-                
-                dfm.addRow(f);
-            }
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       limpiar(); 
-       c.cargarClientes(jTable1,dfm);
+        c.cargarClientes(jTable1,dfm);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if(jCheckBox1.isSelected()){
-            jButton2.setEnabled(false);
-            jTextField1.setEnabled(true);
-            jButton1.setEnabled(true);
-        }
-        else{
-            jButton2.setEnabled(true);
-            jTextField1.setEnabled(false);
-            jButton1.setEnabled(false);
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
-     public void limpiar(){
-        for (int i = 0; i < jTable1.getRowCount(); i++) {
-            dfm.removeRow(i);
-            i-=1;
-        }
-    }
+
     /**
      * @param args the command line arguments
      */
@@ -201,14 +164,30 @@ public class VerCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VerCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VerCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VerCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VerCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VerProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -229,7 +208,7 @@ public class VerCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VerCliente().setVisible(true);
+                new VerProveedor().setVisible(true);
             }
         });
     }
