@@ -16,6 +16,9 @@ public class DetalleVenta {
     private float precio;
     private int cantidad;
 
+    public DetalleVenta(){
+    }
+    
     public DetalleVenta(int idDetalleVenta, int idOrdenVenta, int idProducto, float precio, int cantidad) {
         this.idDetalleVenta = idDetalleVenta;
         this.idOrdenVenta = idOrdenVenta;

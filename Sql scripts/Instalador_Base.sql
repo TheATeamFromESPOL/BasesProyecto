@@ -80,13 +80,11 @@ create table Inventario (
 
 create table OrdenVenta (
 	IdOrdenVenta int not null auto_increment,
-    Usuario varchar(20) not null,
     IdCliente varchar(255) not null,
     TotalVenta float(10,2) not null,
     Fecha Date,
     Hora time,
     primary key (IdOrdenVenta),
-    foreign key (Usuario) references usuario(usuario),
     foreign key (IdCliente) references Cliente(Cedula)
 );
 
@@ -420,6 +418,14 @@ end$$
 delimiter;
 
 delimiter $$
+create procedure insertarOrdenVenta(in id varchar(10),in total float)
+begin
+	insert into OrdenVenta(IdCliente,TotalVenta,Fecha,hora)
+    values (id,total,curdate(),curtime());
+end$$
+delimiter;
+
+delimiter $$
 create procedure obtenerIdUltimaCompra()
 begin
 	select IdOrdenCompra
@@ -430,10 +436,28 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure obtenerIdUltimaVenta()
+begin
+	select IdOrdenVenta
+    from OrdenVenta
+    order by IdOrdenVenta desc
+    limit 1;
+end$$
+delimiter ;
+
+delimiter $$
 create procedure insertarDetalleCompra(in idcompra int,in idProd int,in precio float(5,2),in cant int)
 begin
 	insert into detallecompra(IdOrdenCompra,IdProducto,Precio,Cantidad)
     values (idcompra,idProd,precio,cant);
+end$$
+delimiter;
+
+delimiter $$
+create procedure insertarDetalleVenta(in idventa int,in idProd int,in precio float(5,2),in cant int)
+begin
+	insert into detalleventa(IdOrdenVenta,IdProducto,Precio,Cantidad)
+    values (idventa,idProd,precio,cant);
 end$$
 delimiter;
 
@@ -522,6 +546,15 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure stockProducto(in idprod int)
+begin
+	select i.stock
+    from producto p Join inventario i on p.IdProducto=i.IdInventario
+    where p.IdProducto = idprod;
+end$$
+delimiter ;
+
+delimiter $$
 create trigger eliminarDatosRelacionadoAProducto
 before delete on producto
 for each row
@@ -530,6 +563,25 @@ begin
     delete from inventario where inventario.IdProducto = OLD.IdProducto;
     update detallecompra set IdProducto = 1 where IdProducto = OLD.IdProducto;
     update detalleventa set IdProducto = 1 where IdProducto = OLD.IdProducto;
+end$$
+delimiter ;
+
+delimiter $$
+create trigger eliminarDatosRelacionadoACliente
+before delete on Cliente
+for each row
+begin
+    update ordenventa set IdCliente=1 where IdCliente = OLD.cedula;
+end$$
+delimiter ;
+
+delimiter $$
+create trigger eliminarDatosRelacionadoAProveedor
+before delete on Proveedor
+for each row
+begin
+	delete from producto_proveedor where producto_proveedor.IdProveedor = OLD.IdProveedor;
+    update ordencompra set IdProveedor=1 where IdProveedor = OLD.IdProveedor;
 end$$
 delimiter ;
 
@@ -543,11 +595,11 @@ end$$
 delimiter ;
 
 delimiter $$
-create trigger eliminarDatosRelacionadosAProveedor
-before delete on proveedor
+create trigger eliminarDatosRelacionadoAVenta
+before delete on ordenventa
 for each row
 begin
-	delete from producto_proveedor where producto_proveedor.IdProveedor= OLD.IdProveedor;
+	delete from detalleventa where detalleventa.IdOrdenVenta = OLD.IdOrdenVenta;
 end$$
 delimiter ;
 
@@ -557,15 +609,6 @@ after insert on producto
 for each row
 begin
 	insert into Inventario(IdProducto,Stock) values (NEW.IdProducto,0);
-end$$
-delimiter ;
-
-delimiter $$
-create trigger eliminarDatosRelacionadoAProveedor
-before delete on proveedor
-for each row
-begin
-	delete from producto_proveedor where producto_proveedor.IdProveedor = OLD.IdProveedor;
 end$$
 delimiter ;
 
@@ -582,6 +625,23 @@ begin
     
 	update inventario
     set stock = NEW.Cantidad+stockAntiguo
+    where IdProducto = NEW.IdProducto;
+end$$
+delimiter ;
+
+delimiter $$
+create trigger decrementarInventario
+after insert on detalleventa
+for each row
+begin
+	declare stockAntiguo int;
+    
+    select Stock into stockAntiguo
+    from inventario
+    where IdProducto = NEW.IdProducto;
+    
+	update inventario
+    set stock = NEW.Cantidad-stockAntiguo
     where IdProducto = NEW.IdProducto;
 end$$
 delimiter ;
@@ -612,6 +672,3 @@ insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) valu
 ('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
 
 insert into cliente values ('0000000000','Desconocido','Desconocido', 'Desconocido', 'Desconocido', 'MINORISTA');
-
-select *
-from inventario;

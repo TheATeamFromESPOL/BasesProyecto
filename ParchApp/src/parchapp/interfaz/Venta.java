@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import parchapp.*;
 
 /**
@@ -19,17 +20,71 @@ public class Venta extends javax.swing.JFrame {
     Connector con;
     Cliente cliente;
     ArrayList<DetalleVenta> detalle;
+    DefaultTableModel modelo;
+    float total;
+    OrdenVenta orden;
     /**
      * Creates new form Interfaz6
      */
     public Venta() {
         initComponents();
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         Container c=this.getContentPane();
-        c.setBackground(Color.BLACK);
         con = new Connector();
         cliente = new Cliente();
+        detalle = new ArrayList();
+        String col[] = {"Id Producto","Nombre Producto","Precio","Cantidad","Total Parcial"};
+        modelo = new DefaultTableModel(col,0);
+        con.cargarProductosACombo("", jComboBox2);
+        total = 0;
+        orden = new OrdenVenta();
+        jTextField4.setText(Float.toString(total));
     }
-
+    
+    private boolean validarIngresoDeDetalle(){
+        try{
+            Integer.parseInt(jTextField3.getText());
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Cantidad mal escrita.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if(Integer.parseInt(jTextField3.getText())<=0){
+            JOptionPane.showMessageDialog(null, "Cantidad no puede ser cero o menor.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if(jRadioButton1.isSelected()){
+            try{
+                Integer.parseInt(jTextField2.getText());
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Id de producto mal escrito.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(con.encontrarProductoPorId(Integer.parseInt(jTextField2.getText())).getNombreProducto().equals("")){
+                JOptionPane.showMessageDialog(null, "No existe producto con esa ID.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(Integer.parseInt(jTextField2.getText())==1){
+                JOptionPane.showMessageDialog(null, "No existe producto con esa ID.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        
+        int stock = 0;
+        if(jRadioButton1.isSelected())con.obtenerStockProducto(Integer.parseInt(jTextField2.getText()));
+        if(jRadioButton2.isSelected())con.obtenerStockProducto(con.obtenerIdProducto((String)jComboBox2.getSelectedItem()));
+        
+        if(stock<Integer.parseInt(jTextField3.getText())){
+            JOptionPane.showMessageDialog(null, "Stock del producto menor a cantidad especificada. (Stock: "+stock+")","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar esta venta?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
+        if(respuesta==JOptionPane.NO_OPTION){
+            JOptionPane.showMessageDialog(null, "Detalle no ingresado a petición del usuario.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,11 +149,6 @@ public class Venta extends javax.swing.JFrame {
         });
 
         jTextField1.setName(""); // NOI18N
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField1KeyPressed(evt);
-            }
-        });
 
         jComboBox2.setEnabled(false);
 
@@ -118,6 +168,12 @@ public class Venta extends javax.swing.JFrame {
         jTextField5.setEnabled(false);
 
         jButton1.setText("Filtrar");
+        jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Limpiar sección producto");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +210,11 @@ public class Venta extends javax.swing.JFrame {
         jLabel6.setText("Total:");
 
         jButton4.setText("Registrar Venta");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -280,39 +341,71 @@ public class Venta extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         if(jRadioButton1.isSelected()){
-            
+            jComboBox2.setEnabled(false);
+            jTextField5.setEnabled(false);
+            jButton1.setEnabled(false);
+            jTextField2.setEnabled(true);
         }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         if(jRadioButton2.isSelected()){
-            
+            jComboBox2.setEnabled(true);
+            jTextField5.setEnabled(true);
+            jButton1.setEnabled(true);
+            jTextField2.setEnabled(false);
         }
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        jComboBox2.setEnabled(false);
+        jTextField5.setEnabled(false);
+        jButton1.setEnabled(false);
+        jTextField2.setEnabled(true);
+        jRadioButton1.setSelected(true);
+        jRadioButton2.setSelected(false);
+        jTextField5.setText("");
+        jTextField2.setText("");
+        jTextField2.requestFocus();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
-    }//GEN-LAST:event_jTextField1KeyPressed
-
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(jRadioButton1.isSelected())
+        if(!validarIngresoDeDetalle()) return;
+        
+        if(jRadioButton5.isSelected())
             cliente = con.encontrarCliente(jTextField1.getText());
-        else if(jRadioButton2.isSelected())
+        else if(jRadioButton6.isSelected())
             cliente = con.encontrarCliente("0000000000");
         
         if(!cliente.getNombres().equals("")){
-            if(jRadioButton1.isSelected()) cliente.setCedula(jTextField1.getText());
-            else if(jRadioButton1.isSelected()) cliente.setCedula("0000000000");
+            if(cliente.getCedula().equals("")){
+                if(jRadioButton5.isSelected()) cliente.setCedula(jTextField1.getText());
+                else if(jRadioButton6.isSelected()) cliente.setCedula("0000000000");
+            }
             if(jTextField1.isEnabled()) jTextField1.setEnabled(false);
-            if(jRadioButton1.isEnabled()) jRadioButton1.setEnabled(false);
-            if(jRadioButton2.isEnabled()) jRadioButton2.setEnabled(false);
+            if(jRadioButton5.isEnabled()) jRadioButton1.setEnabled(false);
+            if(jRadioButton6.isEnabled()) jRadioButton2.setEnabled(false);
+            
+            DetalleVenta det = new DetalleVenta();
+            Producto pro = new Producto();
+            if(jRadioButton1.isSelected()) pro = con.encontrarProductoPorId(Integer.parseInt(jTextField2.getText()));
+            else if(jRadioButton2.isSelected()) pro = con.encontrarProductoPorNombre((String)jComboBox2.getSelectedItem());
+            if(cliente.getTipoCliente().equals("MINORISTA")) det.setPrecio(pro.getPrecioPublico());
+            else det.setPrecio(pro.getPrecioMayorista());
+            det.setIdProducto(Integer.parseInt(jTextField2.getText()));
+            det.setCantidad(Integer.parseInt(jTextField3.getText()));
+            detalle.add(det);
+            total += det.getCantidad()*det.getPrecio();
+            jTextField4.setText(Float.toString(total));
+            Object obj[] = {det.getIdProducto(),pro.getNombreProducto(),det.getPrecio(),
+                det.getCantidad(),det.getCantidad()*det.getPrecio()};
+            modelo.addRow(obj);
+            jTable1.setModel(modelo);
             
         }else{
             JOptionPane.showMessageDialog(null, "No existe cliente con esa cédula.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
@@ -321,10 +414,28 @@ public class Venta extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton3ActionPerformed
-    
-    private void agregarAlListado(String s1,String s2){
-        
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        con.cargarProductosACombo(jTextField5.getText(), jComboBox2);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private boolean validarRegistroVenta(){
+        if(detalle.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay detalle para esta venta.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
+    
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar esta compra?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
+        if(validarRegistroVenta() && respuesta==JOptionPane.YES_OPTION){
+            orden.setIdCliente(cliente.getCedula());
+            orden.setTotalVenta(total);
+            con.realizarVenta(orden, detalle);
+        }   
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */

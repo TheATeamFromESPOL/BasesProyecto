@@ -24,7 +24,7 @@ public class Connector {
     //Cambiar la parte '//127.0.0.1:3306/' por la ruta donde esté creada su instancia de mysql
     static final String url = "jdbc:mysql://127.0.0.1:3306/tiretec";
     static final String user = "root";
-    static final String pswd = "675744";
+    static final String pswd = "1234";
 
     public Connector() {
     }
@@ -727,6 +727,56 @@ public class Connector {
             //System.out.println("Secuencia de 'insertarProducto' ejecutada correctamente.");
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
+        }
+    }
+
+    public int obtenerStockProducto(int id) {
+        String cadena = "{CALL stockProducto(?)}";
+        int stock = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            cs.setInt(1, id);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst()){
+                rs.next();
+                stock = rs.getInt(1);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return stock;
+    }
+
+    public void realizarVenta(OrdenVenta orden, ArrayList<DetalleVenta> detalle) {
+        String query = "{CALL insertarOrdenVenta(?,?)}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            cs.setString(1, orden.getIdCliente());
+            cs.setFloat(2, orden.getTotalVenta());
+            cs.execute();
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        query = "{CALL obtenerIdUltimaVenta()}";
+        int idVenta = 0;
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            idVenta = cs.executeQuery().getInt(1);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        query = "{CALL insertarDetalleVenta(?,?,?,?)}";
+        for(DetalleVenta d : detalle){
+            try{
+                CallableStatement cs = this.getConnection().prepareCall(query);
+                cs.setInt(1,idVenta);
+                cs.setInt(2, d.getIdProducto());
+                cs.setFloat(3, d.getPrecio());
+                cs.setFloat(4, d.getCantidad());
+                cs.execute();
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
         }
     }
     

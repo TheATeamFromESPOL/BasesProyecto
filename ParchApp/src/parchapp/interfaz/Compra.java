@@ -351,13 +351,17 @@ public class Compra extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cantidad mal escrita.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        try{
-            Integer.parseInt(jTextField5.getText());
-        }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null, "Id de producto mal escrito.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+        if(Integer.parseInt(jTextField4.getText())<=0){
+            JOptionPane.showMessageDialog(null, "Cantidad no puede ser cero o menor.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if(jRadioButton1.isSelected()){
+            try{
+                Integer.parseInt(jTextField5.getText());
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Id de producto mal escrito.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
             if(con.encontrarProductoPorId(Integer.parseInt(jTextField5.getText())).getNombreProducto().equals("")){
                 JOptionPane.showMessageDialog(null, "No existe producto con esa ID.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
                 return false;

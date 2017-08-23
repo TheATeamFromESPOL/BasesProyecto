@@ -19,6 +19,9 @@ public class OrdenVenta {
     private Date fecha;
     private Time hora;
 
+    public OrdenVenta(){
+    }
+    
     public OrdenVenta(int idOrdenVenta, String idCliente, float totalVenta, Date fecha, Time hora) {
         this.idOrdenVenta = idOrdenVenta;
         this.idCliente = idCliente;
