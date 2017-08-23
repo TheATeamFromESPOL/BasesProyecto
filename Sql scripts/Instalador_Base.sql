@@ -12,9 +12,6 @@ create table usuario (
     primary key (usuario)
 );
 
-insert into usuario
-values ('admin','1234');
-
 create table Producto (
 	IdProducto int not null Auto_increment,
     NombreProducto varchar(50) unique not null,
@@ -26,21 +23,11 @@ create table Producto (
     check (PrecioMayorista > 0)
 );
 
-insert into Producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion) values 
-('Desconocido',0,0,'Desconocido'),
-('Tubo para llanta',4.30,4.02,'Tubo inflable para llanta de auto.'),
-('Parche para tubo',0.30,0.25,'Parche para tapar las fugas de aire de los tubos');
-
 create table Pais(
 	IdPais int not null auto_increment,
     NombrePais varchar(255) unique not null,
     primary key (IdPais)
 );
-
-insert into Pais(NombrePais) values 
-('Desconocido'),
-('Ecuador'),
-('Chile');
 
 create table Ciudad(
 	IdCiudad int not null auto_increment,
@@ -49,13 +36,6 @@ create table Ciudad(
     primary key(IdCiudad),
     foreign key(IdPais) references Pais(IdPais)
 );
-
-insert into Ciudad(NombreCiudad,IdPais) values
-('Desconocido',1), 
-('Guayaquil',2),
-('Quito',2),
-('Santiago',3),
-('Temuco',3);
 
 create table Proveedor (
 	IdProveedor int not null Auto_increment,
@@ -69,11 +49,6 @@ create table Proveedor (
     foreign key(Pais) references Pais(IdPais),
     foreign key(Ciudad) references Ciudad(IdCiudad)
 );
-
-insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) values 
-('Desconocido','000 000 000','desconocido','desconocido',1,1),
-('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1),
-('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
 
 create table Producto_Proveedor(
 	Id int not null auto_increment,
@@ -99,9 +74,8 @@ create table Cliente (
 
 create table Inventario (
 	IdInventario int not null auto_increment,
-    IdProducto int not null,
+    IdProducto int not null unique,
     Stock int not null,
-    Observaciones varchar(255),
     primary key(IdInventario),
     foreign key(IdProducto) references Producto(IdProducto) on delete cascade
 );
@@ -488,6 +462,56 @@ begin
 end$$
 delimiter ;
 
-use tiretec;
+delimiter $$
+create trigger generarInventario
+after insert on producto
+for each row
+begin
+	insert into Inventario(IdProducto,Stock) values (NEW.IdProducto,0);
+end$$
+delimiter ;
+
+delimiter $$
+create trigger incrementarInventario
+after insert on detallecompra
+for each row
+begin
+	declare stockAntiguo int;
+    
+    select Stock into stockAntiguo
+    from inventario
+    where IdProducto = NEW.IdProducto;
+    
+	update inventario
+    set stock = NEW.Cantidad+stockAntiguo
+    where IdProducto = NEW.IdProducto;
+end$$
+delimiter ;
+
+insert into usuario
+values ('admin','1234');
+
+insert into Producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion) values 
+('Desconocido',0,0,'Desconocido'),
+('Tubo para llanta',4.30,4.02,'Tubo inflable para llanta de auto.'),
+('Parche para tubo',0.30,0.25,'Parche para tapar las fugas de aire de los tubos');
+
+insert into Pais(NombrePais) values 
+('Desconocido'),
+('Ecuador'),
+('Chile');
+
+insert into Ciudad(NombreCiudad,IdPais) values
+('Desconocido',1), 
+('Guayaquil',2),
+('Quito',2),
+('Santiago',3),
+('Temuco',3);
+
+insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) values 
+('Desconocido','000 000 000','desconocido','desconocido',1,1),
+('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1),
+('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
+
 select *
-from producto;
+from inventario;
