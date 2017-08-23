@@ -3,10 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/interfaz/Venta.java</file>
-            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/DetalleVenta.java</file>
-            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/interfaz/Compra.java</file>
-            <file>file:/C:/Users/Usuario/Documents/GitHub/BasesProyecto/ParchApp/src/parchapp/interfaz/MenuPrincipal.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/IngresarProveedor.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/VerCliente.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/OrdenCompra.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/IngresoProducto.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/Cliente.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/MenuPrincipal.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/Usuario.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/DetalleCompra.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/ParchApp.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/Pais.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/Venta.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/OrdenVenta.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/Connector.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/Compra.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/DetalleVenta.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/Sesion.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/Ciudad.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/Inventario.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/IngresoCliente.java</file>
+            <file>file:/C:/Users/User/Desktop/creacion/BasesProyecto/ParchApp/src/parchapp/interfaz/ModEliProducto.java</file>
         </group>
     </open-files>
 </project-private>

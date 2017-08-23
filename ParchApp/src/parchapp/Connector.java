@@ -7,6 +7,8 @@ package parchapp;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -106,7 +108,21 @@ public class Connector {
         }
         return proveedores;
     }
-    
+    public ArrayList<String> top3(){
+        ArrayList<String> top = new ArrayList();
+        String cadena = "{CALL top3Clientes()}";
+        try {
+            CallableStatement cs = this.getConnection().prepareCall(cadena);
+            ResultSet rs = cs.executeQuery();
+            
+            while(rs.next()){
+                top.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return top;
+    }
     public ArrayList<String> cargarProveedoresFiltro(String s){
         ArrayList<String> proveedores = new ArrayList();
         String cadena = "{CALL ListarProveedoresFiltro(?)}";
