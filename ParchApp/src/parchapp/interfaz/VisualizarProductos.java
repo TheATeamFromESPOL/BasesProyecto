@@ -143,18 +143,18 @@ public class VisualizarProductos extends javax.swing.JFrame {
         limpiar();
         if(jCheckBox1.isSelected()){
             String nombreProd = jTextField1.getText();
-            int idProd = c.obtenerIdProducto(nombreProd);
-            if(idProd==0){
+            int noProd = c.ProductosConCadena(nombreProd,dfm);
+            if(noProd==0){
             JOptionPane.showMessageDialog(null, "Este producto no existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             }
             else{
-                Producto p = c.encontrarProductoPorNombre(nombreProd);
-                Object[] f = new Object[4];
-                f[0] = p.getNombreProducto();
-                f[1] = p.getPrecioPublico();
-                f[2] = p.getPrecioMayorista();
-                f[3] = p.getDescripcion();
-                dfm.addRow(f);
+//                Producto p = c.encontrarProductoPorNombre(nombreProd);
+//                Object[] f = new Object[4];
+//                f[0] = p.getNombreProducto();
+//                f[1] = p.getPrecioPublico();
+//                f[2] = p.getPrecioMayorista();
+//                f[3] = p.getDescripcion();
+//                dfm.addRow(f);
             }
         }           
     }//GEN-LAST:event_jButton1ActionPerformed
