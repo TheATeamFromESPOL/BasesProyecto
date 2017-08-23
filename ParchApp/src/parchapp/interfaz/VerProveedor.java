@@ -7,6 +7,7 @@ package parchapp.interfaz;
 
 import java.awt.Color;
 import java.awt.Container;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import parchapp.*;
 
@@ -28,6 +29,9 @@ public class VerProveedor extends javax.swing.JFrame {
         ca.setBackground(Color.CYAN);
         dfm = new DefaultTableModel();
         jTable1.setModel(dfm);
+        jTextField1.setEnabled(false);
+        jButton1.setEnabled(false);
+        jTable1.setEnabled(false);
         dfm.setColumnIdentifiers(new Object[]{"nombre","telefono","Email","direccion","pais","ciudad"});
     
     }
@@ -136,7 +140,13 @@ public class VerProveedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        limpiar();
+        String nombreProv = jTextField1.getText();
+        int noProv = c.ProveedorConCadena(nombreProv,dfm);
+        if(noProv==0){
+        JOptionPane.showMessageDialog(null, "Este proveedor no existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            
+        } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -145,7 +155,17 @@ public class VerProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
+        if(jCheckBox1.isSelected()){
+            jTextField1.setEnabled(true);
+            jButton1.setEnabled(true);
+            jButton2.setEnabled(false);
+        }
+        else{
+            jTextField1.setEnabled(false);
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(true);
+        }
+        
     }//GEN-LAST:event_jCheckBox1ActionPerformed
     
     public void limpiar(){
@@ -180,6 +200,70 @@ public class VerProveedor extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VerProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
