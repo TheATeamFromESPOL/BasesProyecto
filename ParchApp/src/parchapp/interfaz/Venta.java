@@ -7,6 +7,8 @@ package parchapp.interfaz;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import parchapp.*;
 
 /**
@@ -14,14 +16,18 @@ import parchapp.*;
  * @author User
  */
 public class Venta extends javax.swing.JFrame {
-
+    Connector con;
+    Cliente cliente;
+    ArrayList<DetalleVenta> detalle;
     /**
      * Creates new form Interfaz6
      */
     public Venta() {
         initComponents();
         Container c=this.getContentPane();
-        c.setBackground(Color.CYAN);
+        c.setBackground(Color.BLACK);
+        con = new Connector();
+        cliente = new Cliente();
     }
 
     /**
@@ -121,6 +127,11 @@ public class Venta extends javax.swing.JFrame {
         });
 
         jButton3.setText("Ingresar detalle");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Detalle:");
 
@@ -289,6 +300,27 @@ public class Venta extends javax.swing.JFrame {
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
     }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(jRadioButton1.isSelected())
+            cliente = con.encontrarCliente(jTextField1.getText());
+        else if(jRadioButton2.isSelected())
+            cliente = con.encontrarCliente("0000000000");
+        
+        if(!cliente.getNombres().equals("")){
+            if(jRadioButton1.isSelected()) cliente.setCedula(jTextField1.getText());
+            else if(jRadioButton1.isSelected()) cliente.setCedula("0000000000");
+            if(jTextField1.isEnabled()) jTextField1.setEnabled(false);
+            if(jRadioButton1.isEnabled()) jRadioButton1.setEnabled(false);
+            if(jRadioButton2.isEnabled()) jRadioButton2.setEnabled(false);
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "No existe cliente con esa cédula.","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            jTextField1.setText("");
+            jTextField1.requestFocus();
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
     
     private void agregarAlListado(String s1,String s2){
         

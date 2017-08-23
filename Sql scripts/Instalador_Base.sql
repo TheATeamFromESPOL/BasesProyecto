@@ -148,16 +148,14 @@ delimiter ;
 
 delimiter $$
 create procedure insertarCliente (in Cedula varchar(10),
-								  in Ruc varchar(15),
-                                  in Pasaporte varchar(30),
                                   in Nombres varchar(255),
                                   in Apellidos varchar(255),
                                   in Direccion varchar(255),
                                   in Email varchar(255),
                                   in TipoCliente varchar(10))
 begin
-	insert into Cliente(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente)
-    values(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente);
+	insert into Cliente(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente)
+    values(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente);
 end$$
 delimiter ;
 

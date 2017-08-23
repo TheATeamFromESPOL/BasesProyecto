@@ -11,8 +11,6 @@ package parchapp;
  */
 public class Cliente {
     private String cedula;
-    private String ruc;
-    private String pasaporte;
     private String nombres;
     private String apellidos;
     private String direccion;
@@ -20,17 +18,12 @@ public class Cliente {
     private String tipoCliente;
     
     public Cliente() {
-    }
-    
-    public Cliente(String cedula, String ruc, String pasaporte, String nombres, String apellidos, String direccion, String email, String tipoCliente) {
-        this.cedula = cedula;
-        this.ruc = ruc;
-        this.pasaporte = pasaporte;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.direccion = direccion;
-        this.email = email;
-        this.tipoCliente = tipoCliente;
+        this.cedula = "";
+        this.nombres = "";
+        this.apellidos = "";
+        this.direccion = "";
+        this.email = "";
+        this.tipoCliente = "";
     }
     
     public Cliente(String cedula, String nombres, String apellidos, String direccion, String email, String tipoCliente) {
@@ -48,22 +41,6 @@ public class Cliente {
 
     public void setCedula(String cedula) {
         this.cedula = cedula;
-    }
-
-    public String getRuc() {
-        return ruc;
-    }
-
-    public void setRuc(String ruc) {
-        this.ruc = ruc;
-    }
-
-    public String getPasaporte() {
-        return pasaporte;
-    }
-
-    public void setPasaporte(String pasaporte) {
-        this.pasaporte = pasaporte;
     }
 
     public String getNombres() {
