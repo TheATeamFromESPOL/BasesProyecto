@@ -166,8 +166,7 @@ public class Connector {
         }
         return datos;    
     }
-    
-    
+        
     public void cargarProducto(JTable j1,DefaultTableModel dfm){
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
         String cadena = "{CALL visualizarProductos()}";
@@ -189,7 +188,6 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
-    
     public int ProductosConCadena(String s,DefaultTableModel dfm){
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
         String query = "{CALL ProductosConCadena(?)}";
