@@ -239,6 +239,7 @@ public class Connector {
         }
         return contador;         
     }
+    
     public int ClienteConCadena(String s,DefaultTableModel dfm){
         ArrayList<Object[]> datos = new ArrayList<Object[]>();
         String query = "{CALL ClienteConCadena(?)}";
