@@ -152,8 +152,8 @@ create procedure insertarCliente (in Cedula varchar(10),
                                   in Email varchar(255),
                                   in TipoCliente varchar(10))
 begin
-	insert into Cliente(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente)
-    values(cedula,Ruc,Pasaporte,Nombres,Apellidos,Direccion,Email,TipoCliente);
+	insert into Cliente(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente)
+    values(cedula,Nombres,Apellidos,Direccion,Email,TipoCliente);
 end$$
 delimiter ;
 
@@ -773,7 +773,8 @@ values ('admin','1234');
 insert into Producto(NombreProducto,PrecioPublico,PrecioMayorista,Descripcion) values 
 ('Desconocido',0,0,'Desconocido'),
 ('Tubo para llanta',4.30,4.02,'Tubo inflable para llanta de auto.'),
-('Parche para tubo',0.30,0.25,'Parche para tapar las fugas de aire de los tubos');
+('Parche para tubo',0.30,0.25,'Parche para tapar las fugas de aire de los tubos'),
+('volante',0.60,0.75,'Para manejar :)');
 
 insert into Pais(NombrePais) values 
 ('Desconocido'),
@@ -799,7 +800,9 @@ insert into cliente values
 insert into producto_proveedor(IdProducto,IdProveedor) values 
 (2,3),
 (2,2),
-(3,2);
+(3,2),
+(4,2),
+(4,3);
 
 update inventario set stock = 500 where idProducto=2;
 update inventario set stock = 500 where idProducto=3;
