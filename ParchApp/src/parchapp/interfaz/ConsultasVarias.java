@@ -5,6 +5,8 @@
  */
 package parchapp.interfaz;
 
+import java.awt.Color;
+import java.awt.Container;
 import javax.swing.table.DefaultTableModel;
 import parchapp.Connector;
 
@@ -20,6 +22,8 @@ public class ConsultasVarias extends javax.swing.JFrame {
     public ConsultasVarias() {
         initComponents();
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        Container ca=this.getContentPane();
+        ca.setBackground(Color.CYAN);
         c = new Connector();
     }
 

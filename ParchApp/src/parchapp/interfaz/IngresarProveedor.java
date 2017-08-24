@@ -7,6 +7,7 @@ package parchapp.interfaz;
 
 import java.awt.Color;
 import java.awt.Container;
+import javax.swing.JOptionPane;
 import parchapp.*;
 
 /**
@@ -195,16 +196,39 @@ public class IngresarProveedor extends javax.swing.JFrame {
     private void cambioDeItem(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cambioDeItem
 
     }//GEN-LAST:event_cambioDeItem
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int idpais = con.obtenerIdPais(String.valueOf(jComboBox1.getSelectedItem()));
-        int idciudad = con.obtenerIdCiudad(String.valueOf(jComboBox1.getSelectedItem()), String.valueOf(jComboBox2.getSelectedItem()));
-        Proveedor proveedor = new Proveedor(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField5.getText());
-        proveedor.setPais(idpais);
-        proveedor.setCiudad(idciudad);
-        con.insertarProveedor(proveedor);
+        if(validar()){
+            if(con.encontrarProveedorPorNombre(jTextField1.getText().trim())==null){
+                int idpais = con.obtenerIdPais(String.valueOf(jComboBox1.getSelectedItem()));
+                int idciudad = con.obtenerIdCiudad(String.valueOf(jComboBox1.getSelectedItem()), String.valueOf(jComboBox2.getSelectedItem()));
+                Proveedor proveedor = new Proveedor(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField5.getText());
+                proveedor.setPais(idpais);
+                proveedor.setCiudad(idciudad);
+                con.insertarProveedor(proveedor);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "El proveedor ya existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    public boolean validar(){
+        boolean valido = true;
+        
+        if(jTextField1.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        try{
+            Integer.parseInt(jTextField2.getText().trim());
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Ingrese una telefono valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return valido;
+    }
     /**
      * @param args the command line arguments
      */

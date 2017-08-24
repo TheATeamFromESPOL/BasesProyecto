@@ -208,15 +208,29 @@ public class IngresoCliente extends javax.swing.JFrame {
             String tipo = "";
             if(jRadioButton1.isSelected()) tipo = "MINORISTA";
             else if (jRadioButton2.isSelected()) tipo = "MAYORISTA";
-            Cliente cli = new Cliente(jTextField1.getText(),jTextField4.getText(),jTextField5.getText(),jTextField6.getText(),email,tipo);
-            c.insertarCliente(cli);
+            if(c.encontrarCliente(jTextField1.getText())==null){
+                Cliente cli = new Cliente(jTextField1.getText(),jTextField4.getText(),jTextField5.getText(),jTextField6.getText(),email,tipo);
+                c.insertarCliente(cli);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Cliente ya existe","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            }
+            
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
     public boolean validar(){
         boolean valido = true;
-        if(jTextField1.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Ingrese una cedula valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+        
+        if(jTextField1.getText().trim().equals("")||jTextField1.getText().trim().length()!=10){
+            JOptionPane.showMessageDialog(null, "Ingrese una cedula valida","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        try{
+            Integer.parseInt(jTextField1.getText());
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Ingrese una cedula valida","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if(jTextField4.getText().trim().equals("")){

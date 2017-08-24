@@ -21,8 +21,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal() {
         initComponents();
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        Container c=this.getContentPane();
-        c.setBackground(Color.CYAN);
+        Container ca=this.getContentPane();
+        ca.setBackground(Color.CYAN);
+        
     }
 
     /**

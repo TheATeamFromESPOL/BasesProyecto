@@ -29,7 +29,8 @@ public class Venta extends javax.swing.JFrame {
     public Venta() {
         initComponents();
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-        Container c=this.getContentPane();
+        Container ca=this.getContentPane();
+        ca.setBackground(Color.CYAN);
         con = new Connector();
         cliente = new Cliente();
         detalle = new ArrayList();

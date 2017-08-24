@@ -26,7 +26,7 @@ public class Connector {
     //Cambiar la parte '//127.0.0.1:3306/' por la ruta donde esté creada su instancia de mysql
     static final String url = "jdbc:mysql://127.0.0.1:3306/tiretec";
     static final String user = "root";
-    static final String pswd = "1234";
+    static final String pswd = "675744";
 
     public Connector() {
     }
