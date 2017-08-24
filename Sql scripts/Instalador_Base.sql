@@ -633,6 +633,49 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure productosSinStock()
+begin
+	select a.NombreProducto,a.Descripcion,b.NombreProveedor,b.Direccion,b.Telefono
+    from (
+		select p.IdProducto, p.NombreProducto,p.Descripcion
+		from inventario i Join Producto p on i.IdProducto=p.IdProducto
+		where i.Stock=0 and i.idProducto!=1) a 
+		join(
+			select pv.IdProducto,prov.NombreProveedor,prov.Direccion,prov.Telefono
+            from producto_proveedor pv Join proveedor prov on pv.IdProveedor=prov.IdProveedor) b
+		on a.IdProducto = b.IdProducto;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure top10ProductosMasVendidos()
+begin
+	select p.NombreProducto,sum(dv.cantidad)
+    from Producto p Join detalleventa dv on p.IdProducto = dv.IdProducto
+    group by p.NombreProducto
+    limit 10;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure top10clientes()
+begin
+	select c.Nombres,c.Apellidos,c.email,sum(ov.TotalVenta)
+    from Cliente c Join OrdenVenta ov on c.Cedula = ov.IdCliente
+    group by c.Nombres,c.Apellidos,c.email;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure top10clientesMasFrecuentes()
+begin
+	select c.Nombres,c.Apellidos,c.email,count(ov.IdOrdenVenta)
+    from Cliente c Join OrdenVenta ov on c.Cedula = ov.IdCliente
+    group by c.Nombres,c.Apellidos,c.email;
+end$$
+delimiter ;
+
+delimiter $$
 create trigger eliminarDatosRelacionadoAProducto
 before delete on producto
 for each row

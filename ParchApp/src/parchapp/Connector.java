@@ -898,4 +898,88 @@ public class Connector {
             System.out.println(ex.getMessage());
         }
     }
+    
+    public void productosSinStock(JTable tabla){
+        Object cols[] = {"Producto","Descripcion Producto","Nombre Proveedor",
+            "Direccion Proveedor","Telefono Proveedor"};
+        DefaultTableModel modelo = new DefaultTableModel(cols, 0);
+        String query = "{CALL productosSinStock()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                String nomprod = rs.getString(1);
+                String descprod = rs.getString(2);
+                String nomprov = rs.getString(3);
+                String dirprov = rs.getString(4);
+                String telfprov = rs.getString(5);
+                Object fila[] = {nomprod,descprod,nomprov,dirprov,telfprov};
+                modelo.addRow(fila);
+            }
+            tabla.setModel(modelo);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void top10ProductosMasVendidos(JTable tabla){
+        Object cols[] = {"Producto","Cantidad vendida"};
+        DefaultTableModel modelo = new DefaultTableModel(cols, 0);
+        String query = "{CALL top10ProductosMasVendidos()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                String nomprod = rs.getString(1);
+                int cant = rs.getInt(2);
+                Object fila[] = {nomprod,cant};
+                modelo.addRow(fila);
+            }
+            tabla.setModel(modelo);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void top10clientes(JTable tabla){
+        Object cols[] = {"Nombres","Apellidos","Email","Dinero gastado"};
+        DefaultTableModel modelo = new DefaultTableModel(cols, 0);
+        String query = "{CALL top10clientes()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                String nombres = rs.getString(1);
+                String apellidos = rs.getString(2);
+                String email = rs.getString(3);
+                float dinero = rs.getFloat(4);
+                Object fila[] = {nombres,apellidos,email,dinero};
+                modelo.addRow(fila);
+            }
+            tabla.setModel(modelo);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void top10clientesMasFrecuentes(JTable tabla){
+        Object cols[] = {"Nombres","Apellidos","Email","Cantidad de compras"};
+        DefaultTableModel modelo = new DefaultTableModel(cols, 0);
+        String query = "{CALL top10clientesMasFrecuentes()}";
+        try{
+            CallableStatement cs = this.getConnection().prepareCall(query);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                String nombres = rs.getString(1);
+                String apellidos = rs.getString(2);
+                String email = rs.getString(3);
+                int cantidad = rs.getInt(4);
+                Object fila[] = {nombres,apellidos,email,cantidad};
+                modelo.addRow(fila);
+            }
+            tabla.setModel(modelo);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 }
