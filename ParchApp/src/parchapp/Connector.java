@@ -26,7 +26,7 @@ public class Connector {
     //Cambiar la parte '//127.0.0.1:3306/' por la ruta donde esté creada su instancia de mysql
     static final String url = "jdbc:mysql://127.0.0.1:3306/tiretec";
     static final String user = "root";
-    static final String pswd = "675744";
+    static final String pswd = "1234";
 
     public Connector() {
     }
@@ -571,7 +571,11 @@ public class Connector {
         int idCompra = 0;
         try{
             CallableStatement cs = this.getConnection().prepareCall(query);
-            idCompra = cs.executeQuery().getInt(1);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst()){
+                rs.next();
+                idCompra = rs.getInt(1);
+            }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
@@ -765,6 +769,7 @@ public class Connector {
             if(rs.isBeforeFirst()){
                 rs.next();
                 stock = rs.getInt(1);
+                System.out.println(stock);
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -786,7 +791,11 @@ public class Connector {
         int idVenta = 0;
         try{
             CallableStatement cs = this.getConnection().prepareCall(query);
-            idVenta = cs.executeQuery().getInt(1);
+            ResultSet rs = cs.executeQuery();
+            if(rs.isBeforeFirst()){
+                rs.next();
+                idVenta = rs.getInt(1);
+            }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }

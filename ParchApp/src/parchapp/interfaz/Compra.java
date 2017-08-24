@@ -388,6 +388,7 @@ public class Compra extends javax.swing.JFrame {
                 con.insertarProd_Prov(det.getIdProducto(), orden.getIdProveedor());
             }
             con.realizarCompra(orden, detalle);
+            JOptionPane.showMessageDialog(null, "Venta registrada correctamente.", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

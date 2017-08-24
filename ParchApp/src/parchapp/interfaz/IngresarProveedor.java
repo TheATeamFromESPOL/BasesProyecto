@@ -221,7 +221,7 @@ public class IngresarProveedor extends javax.swing.JFrame {
             return false;
         }
         try{
-            Integer.parseInt(jTextField2.getText().trim());
+            Integer.parseInt(jTextField2.getText());
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, "Ingrese una telefono valido","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);

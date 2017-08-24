@@ -71,15 +71,15 @@ public class Venta extends javax.swing.JFrame {
         }
         
         int stock = 0;
-        if(jRadioButton1.isSelected())con.obtenerStockProducto(Integer.parseInt(jTextField2.getText()));
-        if(jRadioButton2.isSelected())con.obtenerStockProducto(con.obtenerIdProducto((String)jComboBox2.getSelectedItem()));
+        if(jRadioButton1.isSelected())stock = con.obtenerStockProducto(Integer.parseInt(jTextField2.getText()));
+        if(jRadioButton2.isSelected())stock = con.obtenerStockProducto(con.obtenerIdProducto((String)jComboBox2.getSelectedItem()));
         
         if(stock<Integer.parseInt(jTextField3.getText())){
             JOptionPane.showMessageDialog(null, "Stock del producto menor a cantidad especificada. (Stock: "+stock+")","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
             return false;
         }
         
-        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar esta venta?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
+        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar este detalle?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
         if(respuesta==JOptionPane.NO_OPTION){
             JOptionPane.showMessageDialog(null, "Detalle no ingresado a petición del usuario.","Mensaje del sistema",JOptionPane.INFORMATION_MESSAGE);
             return false;
@@ -389,16 +389,20 @@ public class Venta extends javax.swing.JFrame {
                 else if(jRadioButton6.isSelected()) cliente.setCedula("0000000000");
             }
             if(jTextField1.isEnabled()) jTextField1.setEnabled(false);
-            if(jRadioButton5.isEnabled()) jRadioButton1.setEnabled(false);
-            if(jRadioButton6.isEnabled()) jRadioButton2.setEnabled(false);
-            
+            if(jRadioButton5.isEnabled()||jRadioButton6.isEnabled()){ 
+                jRadioButton1.setEnabled(false);
+                jRadioButton2.setEnabled(false);
+            }            
             DetalleVenta det = new DetalleVenta();
             Producto pro = new Producto();
             if(jRadioButton1.isSelected()) pro = con.encontrarProductoPorId(Integer.parseInt(jTextField2.getText()));
             else if(jRadioButton2.isSelected()) pro = con.encontrarProductoPorNombre((String)jComboBox2.getSelectedItem());
             if(cliente.getTipoCliente().equals("MINORISTA")) det.setPrecio(pro.getPrecioPublico());
             else det.setPrecio(pro.getPrecioMayorista());
-            det.setIdProducto(Integer.parseInt(jTextField2.getText()));
+            if(jRadioButton1.isSelected())
+                det.setIdProducto(Integer.parseInt(jTextField2.getText()));
+            if(jRadioButton2.isSelected())
+                det.setIdProducto(con.obtenerIdProducto(pro.getNombreProducto()));
             det.setCantidad(Integer.parseInt(jTextField3.getText()));
             detalle.add(det);
             total += det.getCantidad()*det.getPrecio();
@@ -429,11 +433,12 @@ public class Venta extends javax.swing.JFrame {
     }
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar esta compra?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
+        int respuesta = JOptionPane.showConfirmDialog(this.getRootPane(), "¿Seguro de registrar esta venta?", "Mensaje del Sistema", JOptionPane.YES_NO_OPTION);
         if(validarRegistroVenta() && respuesta==JOptionPane.YES_OPTION){
             orden.setIdCliente(cliente.getCedula());
             orden.setTotalVenta(total);
             con.realizarVenta(orden, detalle);
+            JOptionPane.showMessageDialog(null, "Venta registrada correctamente.", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
         }   
     }//GEN-LAST:event_jButton4ActionPerformed
 

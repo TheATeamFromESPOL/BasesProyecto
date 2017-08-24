@@ -152,8 +152,6 @@ public class IngresoProducto extends javax.swing.JFrame {
 
         jComboBox3.setEnabled(false);
 
-        jTextField5.setText("0");
-
         jLabel1.setText("Cantidad en stock:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -338,7 +336,7 @@ public class IngresoProducto extends javax.swing.JFrame {
             return false;
         }
         try{
-            if(Integer.parseInt(jTextField5.getText())>=0){
+            if(Integer.parseInt(jTextField5.getText())<0){
                 JOptionPane.showMessageDialog(null, "Cantidad en stock incorrecta","Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
                 return false;
             }
