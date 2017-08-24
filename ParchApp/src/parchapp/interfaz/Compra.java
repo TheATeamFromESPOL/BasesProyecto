@@ -384,6 +384,9 @@ public class Compra extends javax.swing.JFrame {
         if(validarRegistroCompra() && respuesta==JOptionPane.YES_OPTION){
             orden.setIdProveedor(con.obtenerIdProveedor((String)jComboBox1.getSelectedItem()));
             orden.setTotalCompra(total);
+            for(DetalleCompra det : detalle){
+                con.insertarProd_Prov(det.getIdProducto(), orden.getIdProveedor());
+            }
             con.realizarCompra(orden, detalle);
         }
     }//GEN-LAST:event_jButton3ActionPerformed

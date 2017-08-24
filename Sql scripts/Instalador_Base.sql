@@ -608,6 +608,31 @@ end$$
 delimiter ;
 
 delimiter $$
+create procedure cargarOrdenesCompra()
+begin
+	select Fecha,hora,TotalCompra
+    from OrdenCompra;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure cargarOrdenesVenta()
+begin
+	select Fecha,Hora,TotalVenta
+    from OrdenVenta;
+end$$
+delimiter ;
+
+delimiter $$
+create procedure actualizarStock(in idprod int,in cant int)
+begin
+	update inventario
+    set stock = cant
+    where IdProducto = cant;
+end$$
+delimiter ;
+
+delimiter $$
 create trigger eliminarDatosRelacionadoAProducto
 before delete on producto
 for each row
@@ -724,12 +749,17 @@ insert into proveedor(NombreProveedor,Telefono,Email,Direccion,Pais,Ciudad) valu
 ('Ferrinsa S.A.', '555 333 444','Ferrinsa@outlook.com','Cuenca y la 567',1,1),
 ('Tu mami', '555 555 555','TuMAMITA@outlook.com','Cuenca y la 567',1,1);
 
-insert into cliente values ('0000000000','Desconocido','Desconocido', 'Desconocido', 'Desconocido', 'MINORISTA');
+insert into cliente values 
+('0000000000','Desconocido','Desconocido', 'Desconocido', 'Desconocido', 'MINORISTA'),
+('0930224308','Luis Ángel','Arízaga Díaz', 'El Recreo 4ta Etapa MZ.458 V.27', 'larizaga@espol.edu.ec', 'MINORISTA');
 
 insert into producto_proveedor(IdProducto,IdProveedor) values 
 (2,3),
 (2,2),
 (3,2);
 
+update inventario set stock = 500 where idProducto=2;
+update inventario set stock = 500 where idProducto=3;
+
 select *
-from producto_proveedor;
+from inventario;

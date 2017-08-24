@@ -101,7 +101,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem14);
 
-        jMenuItem10.setText("Top 3 Clientes");
+        jMenuItem10.setText("Balance Compras-Ventas");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem10ActionPerformed(evt);
@@ -253,7 +253,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-       new ConsultaTop3().setVisible(true); // TODO add your handling code here:
+        new Balance().setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
