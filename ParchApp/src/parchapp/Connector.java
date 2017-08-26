@@ -154,9 +154,8 @@ public class Connector {
             }
             for(int i=0;i<datos.size();i++){
                 ArrayList<String> paisCiudad = nombrePaisCiudad((int)datos.get(i)[4], (int)datos.get(i)[5]);
-                String query = "{CALL nombrePaisCiudad(?,?)}";
-                datos.get(i)[4]=paisCiudad.get(0);                      
-                datos.get(i)[5]=paisCiudad.get(1);
+                (datos.get(i))[4]=paisCiudad.get(0);                      
+                (datos.get(i))[5]=paisCiudad.get(1);
                 dfm.addRow(datos.get(i));
             }
         }catch(SQLException ex){
@@ -168,9 +167,9 @@ public class Connector {
         ArrayList<String> datos = new ArrayList<>();
         String query = "{CALL nombrePaisCiudad(?,?)}";
         try{
-            CallableStatement cs = this.getConnection().prepareCall(query);
-            cs.setInt(1,pais);
-            cs.setInt(2,ciudad);
+            CallableStatement cs = conn.prepareCall(query);
+            cs.setInt(2,pais);
+            cs.setInt(1,ciudad);
             ResultSet rs = cs.executeQuery();
             if(rs.isBeforeFirst()){
                 rs.next();
@@ -248,7 +247,10 @@ public class Connector {
                 datos.add(filas);
             }
             for(int i=0;i<datos.size();i++){
-                 dfm.addRow(datos.get(i));
+                ArrayList<String> paisCiudad = nombrePaisCiudad((int)datos.get(i)[4], (int)datos.get(i)[5]);
+                (datos.get(i))[4]=paisCiudad.get(0);                      
+                (datos.get(i))[5]=paisCiudad.get(1);
+                dfm.addRow(datos.get(i));
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
