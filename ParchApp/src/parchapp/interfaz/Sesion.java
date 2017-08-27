@@ -24,8 +24,7 @@ public class Sesion extends javax.swing.JFrame {
     public Sesion() {
         c = new Connector();
         initComponents();
-        Container c=this.getContentPane();
-        c.setBackground(Color.CYAN);
+        jPanel1.setBackground(Color.CYAN);
     }
 
     /**
