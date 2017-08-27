@@ -33,7 +33,8 @@ public class ModEliProducto extends javax.swing.JFrame {
         for(String s : c.cargarProveedores()){
             jComboBox1.addItem(s);
         }
-        
+        Container ca=this.getContentPane();
+        ca.setBackground(Color.CYAN);
     }
 
     /**
