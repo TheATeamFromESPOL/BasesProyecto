@@ -3290,3 +3290,8 @@ begin
 end$$
 delimiter ;
 
+create unique index idxCedula on Cliente (cedula);
+create unique index idProd on Producto (idProducto);
+create unique index idProv on proveedor (idProveedor);
+create index nomProv on proveedor (NombreProveedor);
+create index nomProd on producto (NombreProducto);
